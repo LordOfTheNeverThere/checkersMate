@@ -26,6 +26,23 @@ FetchContent_MakeAvailable(googletest)
 add_library(checkersMateLib STATIC
         include/checkersMate/Board.h
         src/Board.cpp
+        include/checkersMate/pieces/Piece.h
+        include/checkersMate/Exceptions.h
+        include/checkersMate/Coordinates.h
+        src/pieces/Piece.cpp
+        include/checkersMate/pieces/Pawn.h
+        include/checkersMate/pieces/Bishop.h
+        include/checkersMate/pieces/Horse.h
+        include/checkersMate/pieces/Tower.h
+        include/checkersMate/pieces/Queen.h
+        include/checkersMate/pieces/King.h
+        include/checkersMate/pieces/PieceType.h
+        src/pieces/Pawn.cpp
+        src/pieces/Bishop.cpp
+        src/pieces/Tower.cpp
+        src/pieces/Horse.cpp
+        src/pieces/Queen.cpp
+        src/pieces/King.cpp
 )
 
 # Link against the fetched socks library
