@@ -2,15 +2,15 @@
 #define CHECKERSMATE_BOARD_H
 #include <array>
 #include <memory>
+
+#include "../../cmake-build-debug/_deps/googletest-src/googletest/include/gtest/gtest_prod.h"
 #include "pieces/Piece.h"
 
-class Board {
-    std::array<std::shared_ptr<Piece>, 32> m_pieces {};
+class Board{
+    FRIEND_TEST(MethodChecking, BoardConstructor);
+    std::array<std::unique_ptr<Piece>, 32> m_pieces {};
 public:
-    Board() {
-        //TODO: Initialise all the Pieces
-        // and construct the array of weak pointers to give them
-    }
+    Board();
 };
 
-#endif CHECKERSMATE_BOARD_H
+#endif //CHECKERSMATE_BOARD_H

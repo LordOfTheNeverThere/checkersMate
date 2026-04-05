@@ -1,29 +1,30 @@
 #ifndef CHECKERSMATE_PIECE_H
 #define CHECKERSMATE_PIECE_H
-#include <memory>
-#include <array>
+#include "PieceColour.h"
 #include "PieceType.h"
 #include "../Coordinates.h"
 
+class Board; // Forward Declaration
 
 class Piece {
-    std::array<std::weak_ptr<Piece>, 32> m_otherPieces {};
+    Board* m_currentBoard {};
     Coordinates m_coordinates {0,0};
+    PieceColour m_colour {};
     PieceType m_type {};
+    uint64_t m_NumOfMoves{};
 public:
-    Piece(Int x, Int y, const std::array<std::weak_ptr<Piece>, 32> &otherPieces, PieceType type);
+    Piece();
+    Piece(const Int x, const Int y,Board* currentBoard, PieceColour colour);
 
-    std::array<std::weak_ptr<Piece>, 32> getOtherPieces() {
-        return m_otherPieces;
-    }
-    void setOtherPieces(std::array<std::weak_ptr<Piece>, 32> otherPieces) {
-        m_otherPieces = std::move(otherPieces);
+    Board* getCurrentBoard() {
+        return m_currentBoard;
     }
 
     Coordinates getCoordinates() const {
         return m_coordinates;
     }
-    void setCoordinates(Int x, Int y) {
+
+    void setCoordinates(const Int x, const Int y) {
         m_coordinates.setX(x);
         m_coordinates.setY(y);
     }
@@ -34,6 +35,14 @@ public:
 
     void setType(const PieceType type) {
         m_type = type;
+    }
+
+    PieceColour getColour() const {
+        return m_colour;
+    }
+
+    void setColour(const PieceColour colour) {
+        m_colour = colour;
     }
 };
 

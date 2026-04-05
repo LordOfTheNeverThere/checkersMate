@@ -4,7 +4,7 @@
 
 class King : public Piece{
 public:
-    King(Int x, Int y, const std::array<std::weak_ptr<Piece>, 32> &otherPieces, PieceType type);
+    King(const Int x, const Int y,Board* currentBoard, PieceColour colour);
 };
 
 #endif //CHECKERSMATE_KING_H

@@ -1,4 +1,6 @@
 #include "checkersMate/pieces/Horse.h"
 
-Horse::Horse(Int x, Int y, const std::array<std::weak_ptr<Piece>, 32>& otherPieces, PieceType type)
-: Piece(x, y, otherPieces, type){}
+Horse::Horse(const Int x, const Int y,Board* currentBoard, PieceColour colour)
+: Piece(x, y, currentBoard, colour) {
+    setType(PieceType::horse);
+}

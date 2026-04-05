@@ -1,4 +1,6 @@
 #include "checkersMate/pieces/Pawn.h"
 
-Pawn::Pawn(Int x, Int y, const std::array<std::weak_ptr<Piece>, 32>& otherPieces, PieceType type)
-: Piece(x, y, otherPieces, type){}
+Pawn::Pawn(const Int x, const Int y,Board* currentBoard, PieceColour colour)
+: Piece(x, y, currentBoard, colour) {
+    setType(PieceType::pawn);
+}

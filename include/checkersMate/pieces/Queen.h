@@ -4,6 +4,6 @@
 
 class Queen : public Piece {
 public:
-    Queen(Int x, Int y, const std::array<std::weak_ptr<Piece>, 32> &otherPieces, PieceType type);
+    Queen(const Int x, const Int y,Board* currentBoard, PieceColour colour);
 };
 #endif //CHECKERSMATE_QUEEN_H

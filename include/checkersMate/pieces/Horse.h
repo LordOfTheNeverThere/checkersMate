@@ -4,6 +4,6 @@
 
 class Horse : public Piece {
 public:
-    Horse(Int x, Int y, const std::array<std::weak_ptr<Piece>, 32> &otherPieces, PieceType type);
+    Horse(const Int x, const Int y,Board* currentBoard, PieceColour colour);
 };
 #endif //CHECKERSMATE_KNIGHT_H

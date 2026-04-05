@@ -7,6 +7,7 @@ class Coordinates {
 private:
     uint8_t m_x {};
     uint8_t m_y {};
+
 public:
 
     Coordinates(const Int x, const Int y) {
@@ -35,6 +36,22 @@ public:
         }
         m_y = y;
     }
+
+    uint8_t getIndexIn1D() const {
+        return (m_y * 8) + m_x;
+    }
 };
+
+inline bool operator==(const Coordinates& lhs, const Coordinates& rhs) {
+    return (lhs.getX()==rhs.getX() && lhs.getY()==rhs.getY());
+}
+
+inline bool operator<(const Coordinates& lhs, const Coordinates& rhs) {
+    return lhs.getIndexIn1D() < rhs.getIndexIn1D();
+}
+
+inline bool operator>(const Coordinates& lhs, const Coordinates& rhs) {
+    return lhs.getIndexIn1D() > rhs.getIndexIn1D();
+}
 
 #endif //CHECKERSMATE_COORDINATES_H

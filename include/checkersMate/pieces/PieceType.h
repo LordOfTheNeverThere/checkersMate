@@ -3,7 +3,11 @@
 #define CHECKERSMATE_PIECETYPE_H
 
 enum class PieceType {
-    white,
-    black,
+    pawn,
+    tower,
+    horse,
+    bishop,
+    queen,
+    king,
 };
 #endif //CHECKERSMATE_PIECETYPE_H

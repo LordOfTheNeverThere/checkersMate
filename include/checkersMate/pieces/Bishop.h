@@ -4,6 +4,6 @@
 
 class Bishop : public Piece {
 public:
-    Bishop(Int x, Int y, const std::array<std::weak_ptr<Piece>, 32> &otherPieces, PieceType type);
+    Bishop(const Int x, const Int y,Board* currentBoard, PieceColour colour);
 };
 #endif //CHECKERSMATE_BISHOP_H

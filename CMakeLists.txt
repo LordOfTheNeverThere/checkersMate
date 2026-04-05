@@ -36,13 +36,15 @@ add_library(checkersMateLib STATIC
         include/checkersMate/pieces/Tower.h
         include/checkersMate/pieces/Queen.h
         include/checkersMate/pieces/King.h
-        include/checkersMate/pieces/PieceType.h
+        include/checkersMate/pieces/PieceColour.h
         src/pieces/Pawn.cpp
         src/pieces/Bishop.cpp
         src/pieces/Tower.cpp
         src/pieces/Horse.cpp
         src/pieces/Queen.cpp
         src/pieces/King.cpp
+        include/checkersMate/pieces/PieceType.h
+        include/checkersMate/ChessTools.h
 )
 
 # Link against the fetched socks library
