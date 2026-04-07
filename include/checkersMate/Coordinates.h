@@ -20,7 +20,7 @@ public:
     }
 
     void setX(const Int x) {
-        if (x < 0 || x > 8) {
+        if (x < 0 || x > 7) {
             throw OutOfBoardException(x);
         }
         m_x = x;
@@ -31,7 +31,7 @@ public:
     }
 
     void setY(const Int y) {
-        if (y < 0 || y > 8) {
+        if (y < 0 || y > 7) {
             throw OutOfBoardException(y);
         }
         m_y = y;
