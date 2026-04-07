@@ -108,5 +108,4 @@ TEST(MethodChecking, BoardConstructor) {
     std::set<Coordinates> blackBishopsCoords {ChessTools::getCoordinatesSet(blackBishops)};
     EXPECT_TRUE(blackBishopsCoords.find(Coordinates{2, 7}) != blackBishopsCoords.end());
     EXPECT_TRUE(blackBishopsCoords.find(Coordinates{5, 7}) != blackBishopsCoords.end());
-
 }

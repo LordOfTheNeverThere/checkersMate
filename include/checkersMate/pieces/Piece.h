@@ -4,6 +4,8 @@
 #include "PieceType.h"
 #include "../Coordinates.h"
 
+#include <iostream>
+
 class Board; // Forward Declaration
 
 class Piece {
@@ -44,6 +46,13 @@ public:
     void setColour(const PieceColour colour) {
         m_colour = colour;
     }
+
+    virtual void print(std::ostream& os) const {}
 };
+
+inline std::ostream& operator<<(std::ostream& os, const Piece& piece) {
+    piece.print(os);
+    return os;
+}
 
 #endif //CHECKERSMATE_PIECE_H
