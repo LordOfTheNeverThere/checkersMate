@@ -8,7 +8,9 @@
 #include "pieces/Piece.h"
 
 class Board{
+    friend class Piece;
     FRIEND_TEST(MethodChecking, BoardConstructor);
+    FRIEND_TEST(MethodChecking, possibleMovesStartingPosition);
 
     std::array<std::unique_ptr<Piece>, 32> m_pieces {};
 public:

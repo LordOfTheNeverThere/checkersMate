@@ -5,6 +5,7 @@
 #include "../Coordinates.h"
 
 #include <iostream>
+#include <vector>
 
 class Board; // Forward Declaration
 
@@ -14,9 +15,14 @@ class Piece {
     PieceColour m_colour {};
     PieceType m_type {};
     uint64_t m_NumOfMoves{};
+
+protected:
+    bool isFriendlyFire(const Coordinates& newCoords) const;
 public:
     Piece();
     Piece(const Int x, const Int y,Board* currentBoard, PieceColour colour);
+
+    virtual std::vector<Coordinates> possibleMoves();
 
     Board* getCurrentBoard() {
         return m_currentBoard;

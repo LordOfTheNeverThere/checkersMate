@@ -5,6 +5,7 @@
 class Tower : public Piece {
 public:
     Tower(const Int x, const Int y,Board* currentBoard, PieceColour colour);
+    std::vector<Coordinates> possibleMoves() override;
     void print(std::ostream& os) const {
         unsigned char charName {'T'};
         if (getColour() == PieceColour::black) {

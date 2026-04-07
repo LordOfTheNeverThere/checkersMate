@@ -5,6 +5,7 @@
 class Queen : public Piece {
 public:
     Queen(const Int x, const Int y,Board* currentBoard, PieceColour colour);
+    std::vector<Coordinates> possibleMoves() override;
     void print(std::ostream& os) const {
         unsigned char charName {'Q'};
         if (getColour() == PieceColour::black) {

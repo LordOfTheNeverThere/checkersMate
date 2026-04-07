@@ -1,6 +1,7 @@
 
 add_executable(checkersMateTests
 Board.cpp
+        Horse.cpp
 )
 
 target_link_libraries(checkersMateTests
