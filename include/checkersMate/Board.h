@@ -4,13 +4,14 @@
 #include <iomanip>
 #include <memory>
 
-#include "../../cmake-build-debug/_deps/googletest-src/googletest/include/gtest/gtest_prod.h"
+#include "gtest/gtest.h"
 #include "pieces/Piece.h"
 
 class Board{
     friend class Piece;
     FRIEND_TEST(MethodChecking, BoardConstructor);
     FRIEND_TEST(MethodChecking, possibleMovesStartingPosition);
+    FRIEND_TEST(MethodChecking, possibleMovesOnEnemyPieces);
 
     std::array<std::unique_ptr<Piece>, 32> m_pieces {};
 public:

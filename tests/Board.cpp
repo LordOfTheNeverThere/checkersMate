@@ -30,6 +30,7 @@ TEST(MethodChecking, BoardConstructor) {
         if (!theBoard.m_pieces.at(i)) {
             nullPtrs++;
         }
+        EXPECT_EQ(0, theBoard.m_pieces.at(i)->m_NumOfMoves);
         Piece piece {*theBoard.m_pieces.at(i)};
         if (piece.getType()==PieceType::pawn) {
             if (piece.getColour() == PieceColour::white) {

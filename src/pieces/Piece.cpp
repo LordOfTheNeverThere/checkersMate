@@ -21,4 +21,5 @@ Piece::Piece(const Int x, const Int y, Board* currentBoard, PieceColour colour) 
     m_currentBoard = currentBoard;
     setCoordinates(x, y);
     setColour(colour);
+    m_NumOfMoves = 0;
 }

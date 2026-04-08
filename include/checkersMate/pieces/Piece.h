@@ -4,12 +4,15 @@
 #include "PieceType.h"
 #include "../Coordinates.h"
 
+#include "gtest/gtest.h"
 #include <iostream>
 #include <vector>
 
 class Board; // Forward Declaration
 
 class Piece {
+    FRIEND_TEST(MethodChecking, BoardConstructor);
+
     Board* m_currentBoard {};
     Coordinates m_coordinates {0,0};
     PieceColour m_colour {};
@@ -35,6 +38,12 @@ public:
     void setCoordinates(const Int x, const Int y) {
         m_coordinates.setX(x);
         m_coordinates.setY(y);
+        m_NumOfMoves++;
+    }
+
+    void setCoordinates(const Coordinates coordinates) {
+        m_coordinates = coordinates;
+        m_NumOfMoves++;
     }
 
     PieceType getType() const {
