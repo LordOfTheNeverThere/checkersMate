@@ -4,6 +4,7 @@ Board.cpp
         Horse.cpp
         Piece.cpp
         Coordinates.cpp
+        Pawn.cpp
 )
 
 target_link_libraries(checkersMateTests

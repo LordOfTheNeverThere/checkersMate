@@ -47,7 +47,19 @@ Piece Board::pieceAtCoordinates(const Coordinates newCoords) const {
     return pieceAtPlace;
 }
 
+Piece* Board::piecePtrAtCoordinates(const Coordinates newCoords) const {
+    Piece* pieceAtPlace {};
+
+    for (const auto& piece: m_pieces) {
+        if (piece->getCoordinates() == newCoords) {
+            pieceAtPlace = piece.get();
+        }
+    }
+
+    return pieceAtPlace;
+}
+
 bool Board::isSquareFree(const Coordinates newCoords) const {
-    return pieceAtCoordinates(newCoords) == Piece();;
+    return !piecePtrAtCoordinates(newCoords);
 }
 

@@ -3,6 +3,8 @@
 #include "Piece.h"
 
 class Pawn : public Piece {
+    FRIEND_TEST(MethodChecking, possibleMovesBlack);
+    FRIEND_TEST(MethodChecking, possibleMovesWhite);
 public:
     Pawn(const Int x, const Int y,Board* currentBoard, PieceColour colour);
     std::vector<Coordinates> possibleMoves(const Piece& lastPlayedPiece);

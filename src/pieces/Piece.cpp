@@ -6,8 +6,8 @@ std::vector<Coordinates> Piece::possibleMoves() { return {}; }
 
 bool Piece::isFriendlyFire(const Coordinates &newCoords) const {
     bool returnVal {false};
-    Piece pieceAtNewCoords = getCurrentBoard()->pieceAtCoordinates(newCoords);
-    if (pieceAtNewCoords.getColour() == getColour()) {
+    Piece* pieceAtNewCoords = getCurrentBoard()->piecePtrAtCoordinates(newCoords);
+    if (pieceAtNewCoords && pieceAtNewCoords->getColour() == getColour()) {
         returnVal = true;
     }
     return returnVal;
