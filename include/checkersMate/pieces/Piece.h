@@ -12,14 +12,16 @@ class Board; // Forward Declaration
 
 class Piece {
     FRIEND_TEST(MethodChecking, BoardConstructor);
+    FRIEND_TEST(MethodChecking, emptyConstructor);
+    FRIEND_TEST(MethodChecking, isFriendlyFire);
 
+protected:
     Board* m_currentBoard {};
     Coordinates m_coordinates {0,0};
     PieceColour m_colour {};
     PieceType m_type {};
     uint64_t m_NumOfMoves{};
 
-protected:
     bool isFriendlyFire(const Coordinates& newCoords) const;
 public:
     Piece();
@@ -27,7 +29,7 @@ public:
 
     virtual std::vector<Coordinates> possibleMoves();
 
-    Board* getCurrentBoard() {
+    Board* getCurrentBoard() const {
         return m_currentBoard;
     }
 
@@ -63,11 +65,24 @@ public:
     }
 
     virtual void print(std::ostream& os) const {}
+    friend inline bool operator==(const Piece& lhs, const Piece& rhs);
 };
 
 inline std::ostream& operator<<(std::ostream& os, const Piece& piece) {
     piece.print(os);
     return os;
+}
+
+inline bool operator==(const Piece& lhs, const Piece& rhs) {
+    return (lhs.getCurrentBoard() == rhs.getCurrentBoard()
+    && lhs.getCoordinates() == rhs.getCoordinates()
+    && lhs.getColour() == rhs.getColour()
+    && lhs.getType() == rhs.getType()
+    && lhs.m_NumOfMoves == rhs.m_NumOfMoves);
+}
+
+inline bool operator!=(const Piece& lhs, const Piece& rhs) {
+    return !operator==(lhs,rhs);
 }
 
 #endif //CHECKERSMATE_PIECE_H

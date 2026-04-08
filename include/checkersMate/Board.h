@@ -16,7 +16,9 @@ class Board{
     std::array<std::unique_ptr<Piece>, 32> m_pieces {};
 public:
     Board();
-    void printBoardView(PieceColour& viewFromColour); // Create a function which prints the board from 0,0 for white and 7,7 for black
+    bool isSquareFree(const Coordinates newCoords) const;
+    Piece pieceAtCoordinates(const Coordinates newCoords) const;
+    void printBoardView(PieceColour& viewFromColour) const; // Create a function which prints the board from 0,0 for white and 7,7 for black
     // friend std::ostream& operator<<(std::ostream& os, const Board& board) {
     //     for (int i = 0 ; i < board.m_pieces.size(); i++) {
     //         if (i % 8 == 0) {

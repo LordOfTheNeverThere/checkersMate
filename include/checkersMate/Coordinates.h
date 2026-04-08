@@ -54,4 +54,14 @@ inline bool operator>(const Coordinates& lhs, const Coordinates& rhs) {
     return lhs.getIndexIn1D() > rhs.getIndexIn1D();
 }
 
+inline Coordinates operator+(const Coordinates& lhs, const Coordinates& rhs) {
+
+    return Coordinates {lhs.getX() + rhs.getX(), lhs.getY() + rhs.getY()};
+}
+
+inline Coordinates operator-(const Coordinates& lhs, const Coordinates& rhs) {
+
+    return Coordinates {lhs.getX() - rhs.getX(), lhs.getY() - rhs.getY()};
+}
+
 #endif //CHECKERSMATE_COORDINATES_H

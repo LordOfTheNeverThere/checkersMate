@@ -35,3 +35,19 @@ Board::Board() {
     }
 }
 
+Piece Board::pieceAtCoordinates(const Coordinates newCoords) const {
+    Piece pieceAtPlace {};
+
+    for (const auto& piece: m_pieces) {
+        if (piece->getCoordinates() == newCoords) {
+            pieceAtPlace = *piece;
+        }
+    }
+
+    return pieceAtPlace;
+}
+
+bool Board::isSquareFree(const Coordinates newCoords) const {
+    return pieceAtCoordinates(newCoords) == Piece();;
+}
+

@@ -3,6 +3,7 @@
 #define CHECKERSMATE_PIECETYPE_H
 
 enum class PieceType {
+    empty,
     pawn,
     tower,
     horse,

@@ -110,3 +110,64 @@ TEST(MethodChecking, BoardConstructor) {
     EXPECT_TRUE(blackBishopsCoords.find(Coordinates{2, 7}) != blackBishopsCoords.end());
     EXPECT_TRUE(blackBishopsCoords.find(Coordinates{5, 7}) != blackBishopsCoords.end());
 }
+
+TEST(MethodChecking, pieceAtCoordinates) {
+    Board theBoard {};
+
+    for (Int row = 6; row < 8; row++) {
+        for (int col = 0; col < 8; col++) {
+            Piece somePiece {theBoard.pieceAtCoordinates(Coordinates(col, row))};
+            EXPECT_TRUE(somePiece.getColour() == PieceColour::black);
+            if (row == 6) {
+                EXPECT_TRUE(somePiece.getType() == PieceType::pawn);
+            } else {
+                if (col == 0 || col == 7) {
+                    EXPECT_TRUE(somePiece.getType() == PieceType::tower);
+                } else if (col == 1 || col == 6) {
+                    EXPECT_TRUE(somePiece.getType() == PieceType::horse);
+                } else if (col == 2 || col == 5) {
+                    EXPECT_TRUE(somePiece.getType() == PieceType::bishop);
+                } else if (col == 3) {
+                    EXPECT_TRUE(somePiece.getType() == PieceType::queen);
+                } else if (col == 4) {
+                    EXPECT_TRUE(somePiece.getType() == PieceType::king);
+                }
+            }
+        }
+    }
+
+    for (Int row = 0; row < 2; row++) {
+        for (int col = 0; col < 8; col++) {
+            Piece somePiece {theBoard.pieceAtCoordinates(Coordinates(col, row))};
+            EXPECT_TRUE(somePiece.getColour() == PieceColour::white);
+            if (row == 1) {
+                EXPECT_TRUE(somePiece.getType() == PieceType::pawn);
+            } else {
+                if (col == 0 || col == 7) {
+                    EXPECT_TRUE(somePiece.getType() == PieceType::tower);
+                } else if (col == 1 || col == 6) {
+                    EXPECT_TRUE(somePiece.getType() == PieceType::horse);
+                } else if (col == 2 || col == 5) {
+                    EXPECT_TRUE(somePiece.getType() == PieceType::bishop);
+                } else if (col == 3) {
+                    EXPECT_TRUE(somePiece.getType() == PieceType::queen);
+                } else if (col == 4) {
+                    EXPECT_TRUE(somePiece.getType() == PieceType::king);
+                }
+            }
+        }
+    }
+}
+
+
+TEST(MethodChecking, isSquareFree) {
+    Board theBoard {};
+    for (Int row = 2; row < 6; row++) {
+        for (int col = 0; col < 8; col++) {
+            Piece somePiece {theBoard.pieceAtCoordinates(Coordinates(col, row))};
+            EXPECT_EQ(somePiece, Piece());
+            EXPECT_EQ(somePiece.getType(), PieceType::empty);
+            EXPECT_EQ(somePiece.getColour(), PieceColour::empty);
+        }
+    }
+}

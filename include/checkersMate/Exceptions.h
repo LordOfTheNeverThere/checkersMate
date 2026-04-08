@@ -5,7 +5,7 @@
 
 class OutOfBoardException : public ConfigException {
 public:
-    OutOfBoardException(uint8_t coord) : ConfigException("Error: The value of " + std::to_string(coord) + " is not correct for a 8x8 board") {}
+    OutOfBoardException(Int coord) : ConfigException("Error: The value of " + std::to_string(coord) + " is not correct for a 8x8 board") {}
 };
 
 #endif //CHECKERSMATE_EXCEPTIONS_H

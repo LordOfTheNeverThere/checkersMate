@@ -6,11 +6,9 @@ std::vector<Coordinates> Piece::possibleMoves() { return {}; }
 
 bool Piece::isFriendlyFire(const Coordinates &newCoords) const {
     bool returnVal {false};
-
-    for (auto const & piece :m_currentBoard->m_pieces) {
-        if (piece->getCoordinates() == newCoords && piece->getColour() == m_colour) {
-            returnVal = true;
-        }
+    Piece pieceAtNewCoords = getCurrentBoard()->pieceAtCoordinates(newCoords);
+    if (pieceAtNewCoords.getColour() == getColour()) {
+        returnVal = true;
     }
     return returnVal;
 }

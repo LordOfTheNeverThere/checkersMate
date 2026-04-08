@@ -3,6 +3,7 @@
 #define CHECKERSMATE_PIECECOLOUR_H
 
 enum class PieceColour {
+    empty,
     white,
     black,
 };
