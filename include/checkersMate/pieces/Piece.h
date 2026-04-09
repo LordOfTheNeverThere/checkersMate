@@ -63,6 +63,9 @@ public:
     void setColour(const PieceColour colour) {
         m_colour = colour;
     }
+    uint64_t getNumOfMoves() const {
+        return m_NumOfMoves;
+    }
 
     virtual void print(std::ostream& os) const {}
     friend inline bool operator==(const Piece& lhs, const Piece& rhs);

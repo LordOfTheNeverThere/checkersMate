@@ -29,7 +29,8 @@ std::vector<Coordinates> Pawn::possibleMoves(const Piece& lastPlayedPiece) {
         Coordinates diagLeft {left}; diagLeft.setY(diagLeft.getY() + signal * 1);
         Piece* pieceAtDiagLeft {getCurrentBoard()->piecePtrAtCoordinates(diagLeft)};
         if (((currentCoordinate.getY() == 4 && getColour() == PieceColour::white) || (currentCoordinate.getY() == 3 && getColour() == PieceColour::black))
-            && lastPlayedPiece.getCoordinates() == left && lastPlayedPiece.getType() == PieceType::pawn && lastPlayedPiece.getColour() != getColour()) {
+            && lastPlayedPiece.getCoordinates() == left && lastPlayedPiece.getType() == PieceType::pawn && lastPlayedPiece.getColour() != getColour()
+            && lastPlayedPiece.getNumOfMoves() == 1) {
             moves.push_back(diagLeft); // En passant capture
         } else if (pieceAtDiagLeft && pieceAtDiagLeft->getColour() != getColour()) {
             moves.push_back(diagLeft);// Normal Capture
@@ -40,7 +41,8 @@ std::vector<Coordinates> Pawn::possibleMoves(const Piece& lastPlayedPiece) {
         Coordinates diagRight {right}; diagRight.setY(diagRight.getY() + signal * 1);
         Piece* pieceAtDiagRight {getCurrentBoard()->piecePtrAtCoordinates(diagRight)};
         if (((currentCoordinate.getY() == 4 && getColour() == PieceColour::white) || (currentCoordinate.getY() == 3 && getColour() == PieceColour::black))
-        && lastPlayedPiece.getCoordinates() == diagRight && lastPlayedPiece.getType() == PieceType::pawn && lastPlayedPiece.getColour() != getColour()) {
+        && lastPlayedPiece.getCoordinates() == right && lastPlayedPiece.getType() == PieceType::pawn && lastPlayedPiece.getColour() != getColour()
+        && lastPlayedPiece.getNumOfMoves() == 1) {
             moves.push_back(diagRight);
         } else if (pieceAtDiagRight && pieceAtDiagRight->getColour() != getColour()) { // Normal Capture
             moves.push_back(diagRight);
