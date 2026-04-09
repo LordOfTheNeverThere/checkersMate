@@ -6,6 +6,7 @@ Board.cpp
         Coordinates.cpp
         Pawn.cpp
         Tower.cpp
+        Bishop.cpp
 )
 
 target_link_libraries(checkersMateTests
