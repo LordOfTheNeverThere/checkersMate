@@ -5,6 +5,7 @@ Board.cpp
         Piece.cpp
         Coordinates.cpp
         Pawn.cpp
+        Tower.cpp
 )
 
 target_link_libraries(checkersMateTests

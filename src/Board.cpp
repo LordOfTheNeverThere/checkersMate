@@ -39,7 +39,7 @@ Piece Board::pieceAtCoordinates(const Coordinates newCoords) const {
     Piece pieceAtPlace {};
 
     for (const auto& piece: m_pieces) {
-        if (piece->getCoordinates() == newCoords) {
+        if (piece && piece->getCoordinates() == newCoords) {
             pieceAtPlace = *piece;
         }
     }
@@ -51,12 +51,20 @@ Piece* Board::piecePtrAtCoordinates(const Coordinates newCoords) const {
     Piece* pieceAtPlace {};
 
     for (const auto& piece: m_pieces) {
-        if (piece->getCoordinates() == newCoords) {
+        if (piece && piece->getCoordinates() == newCoords) {
             pieceAtPlace = piece.get();
         }
     }
 
     return pieceAtPlace;
+}
+
+void Board::emptyTheBoard(std::set<Piece*> piecesToKeep = {}) {
+    for (auto& piece: m_pieces) {
+        if (piecesToKeep.find(piece.get()) == piecesToKeep.end()) {
+            piece.reset();
+        }
+    }
 }
 
 bool Board::isSquareFree(const Coordinates newCoords) const {
