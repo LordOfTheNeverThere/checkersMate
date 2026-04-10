@@ -16,27 +16,27 @@ TEST(MethodChecking, possibleMovesDifferentColour) {
     std::set<Piece*> piecesToKeep {whiteTower, blackPawn1, blackPawn2, blackPawn3, blackPawn4};
     theBoard.emptyTheBoard(piecesToKeep);
 
-    Coordinates centralTower  (3,3);
-    whiteTower->setCoordinates(centralTower);
+    Coordinates central  (3,3);
+    whiteTower->setCoordinates(central);
     std::set<Coordinates> expectedMoves {};
     for (int i = 1; i < 8; ++i) {
-        if (centralTower.getX() + i < 8) {
-            Coordinates expectedMove {centralTower.getX() + i, centralTower.getY()};
+        if (central.getX() + i < 8) {
+            Coordinates expectedMove {central.getX() + i, central.getY()};
             expectedMoves.insert(expectedMove);
             blackPawn1->setCoordinates(expectedMove);
         }
-        if (centralTower.getX() - i >= 0) {
-            Coordinates expectedMove {centralTower.getX() - i, centralTower.getY()};
+        if (central.getX() - i >= 0) {
+            Coordinates expectedMove {central.getX() - i, central.getY()};
             expectedMoves.insert(expectedMove);
             blackPawn2->setCoordinates(expectedMove);
         }
-        if (centralTower.getY() + i < 8) {
-            Coordinates expectedMove {centralTower.getX(), centralTower.getY() + i};
+        if (central.getY() + i < 8) {
+            Coordinates expectedMove {central.getX(), central.getY() + i};
             expectedMoves.insert(expectedMove);
             blackPawn3->setCoordinates(expectedMove);
         }
-        if (centralTower.getY() - i >= 0) {
-            Coordinates expectedMove {centralTower.getX(), centralTower.getY() - i};
+        if (central.getY() - i >= 0) {
+            Coordinates expectedMove {central.getX(), central.getY() - i};
             expectedMoves.insert(expectedMove);
             blackPawn4->setCoordinates(expectedMove);
         }
@@ -44,6 +44,7 @@ TEST(MethodChecking, possibleMovesDifferentColour) {
         for (auto move: moves) {
             EXPECT_TRUE(expectedMoves.find(move) != expectedMoves.end());
         }
+        EXPECT_EQ(expectedMoves.size(), moves.size());
         //std::cout << "The i is " << i << " and the number of times the pawns have moved is " << expectedMoves.size() << " and the number of legal tower moves is " << moves.size() << '\n';
     }
 }
@@ -59,31 +60,31 @@ TEST(MethodChecking, possibleMovesSameColour) {
     std::set<Piece*> piecesToKeep {blackTower, blackPawn1, blackPawn2, blackPawn3, blackPawn4};
     theBoard.emptyTheBoard(piecesToKeep);
 
-    Coordinates centralTower  (3,3);
-    blackTower->setCoordinates(centralTower);
+    Coordinates central  (3,3);
+    blackTower->setCoordinates(central);
     std::set<Coordinates> expectedMoves {};
     for (int i = 2; i < 8; ++i) {
-        if (centralTower.getX() + i < 8) {
-            Coordinates friendlyPieceCoord {centralTower.getX() + i, centralTower.getY()};
-            Coordinates expectedMove {centralTower.getX() + i -1, centralTower.getY()};
+        if (central.getX() + i < 8) {
+            Coordinates friendlyPieceCoord {central.getX() + i, central.getY()};
+            Coordinates expectedMove {central.getX() + i -1, central.getY()};
             expectedMoves.insert(expectedMove);
             blackPawn1->setCoordinates(friendlyPieceCoord);
         }
-        if (centralTower.getX() - i >= 0) {
-            Coordinates friendlyPieceCoord {centralTower.getX() - i, centralTower.getY()};
-            Coordinates expectedMove {centralTower.getX() - i + 1, centralTower.getY()};
+        if (central.getX() - i >= 0) {
+            Coordinates friendlyPieceCoord {central.getX() - i, central.getY()};
+            Coordinates expectedMove {central.getX() - i + 1, central.getY()};
             expectedMoves.insert(expectedMove);
             blackPawn2->setCoordinates(friendlyPieceCoord);
         }
-        if (centralTower.getY() + i < 8) {
-            Coordinates friendlyPieceCoord {centralTower.getX(), centralTower.getY() + i};
-            Coordinates expectedMove {centralTower.getX(), centralTower.getY() + i - 1};
+        if (central.getY() + i < 8) {
+            Coordinates friendlyPieceCoord {central.getX(), central.getY() + i};
+            Coordinates expectedMove {central.getX(), central.getY() + i - 1};
             expectedMoves.insert(expectedMove);
             blackPawn3->setCoordinates(friendlyPieceCoord);
         }
-        if (centralTower.getY() - i >= 0) {
-            Coordinates friendlyPieceCoord {centralTower.getX(), centralTower.getY() - i};
-            Coordinates expectedMove {centralTower.getX(), centralTower.getY() - i + 1};
+        if (central.getY() - i >= 0) {
+            Coordinates friendlyPieceCoord {central.getX(), central.getY() - i};
+            Coordinates expectedMove {central.getX(), central.getY() - i + 1};
             expectedMoves.insert(expectedMove);
             blackPawn4->setCoordinates(friendlyPieceCoord);
         }
@@ -91,6 +92,7 @@ TEST(MethodChecking, possibleMovesSameColour) {
         for (auto move: moves) {
             EXPECT_TRUE(expectedMoves.find(move) != expectedMoves.end());
         }
+        EXPECT_EQ(expectedMoves.size(), moves.size());
         //std::cout << "The i is " << i << " and the number of times the pawns have moved is " << expectedMoves.size() << " and the number of legal tower moves is " << moves.size() << '\n';
     }
 

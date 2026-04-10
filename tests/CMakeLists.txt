@@ -7,6 +7,7 @@ Board.cpp
         Pawn.cpp
         Tower.cpp
         Bishop.cpp
+        Queen.cpp
 )
 
 target_link_libraries(checkersMateTests

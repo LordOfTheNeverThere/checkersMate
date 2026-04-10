@@ -45,6 +45,7 @@ TEST(MethodChecking, possibleMovesDifferentColourBishop) {
         for (auto move: moves) {
             EXPECT_TRUE(expectedMoves.find(move) != expectedMoves.end());
         }
+        EXPECT_EQ(expectedMoves.size(), moves.size());
         //std::cout << "The i is " << i << " and the number of times the pawns have moved is " << expectedMoves.size() << " and the number of legal tower moves is " << moves.size() << '\n';
     }
 }
@@ -93,6 +94,7 @@ TEST(MethodChecking, possibleMovesSameColourBishop) {
         for (auto move: moves) {
             EXPECT_TRUE(expectedMoves.find(move) != expectedMoves.end());
         }
+        EXPECT_EQ(expectedMoves.size(), moves.size());
         //std::cout << "The i is " << i << " and the number of times the pawns have moved is " << expectedMoves.size() << " and the number of legal tower moves is " << moves.size() << '\n';
     }
 }
