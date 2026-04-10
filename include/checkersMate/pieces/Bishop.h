@@ -3,9 +3,9 @@
 #include "Piece.h"
 
 class Bishop : public Piece {
-public:
+public: =
     Bishop(const Int x, const Int y,Board* currentBoard, PieceColour colour);
-    std::vector<Coordinates> possibleMoves() override;
+    std::vector<Coordinates> possibleMoves(const Piece* lastPlayedPiece = nullptr) override;
     void print(std::ostream& os) const {
         unsigned char charName {'B'};
         if (getColour() == PieceColour::black) {

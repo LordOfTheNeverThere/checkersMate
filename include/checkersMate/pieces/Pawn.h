@@ -7,7 +7,7 @@ class Pawn : public Piece {
     FRIEND_TEST(MethodChecking, possibleMovesWhite);
 public:
     Pawn(const Int x, const Int y,Board* currentBoard, PieceColour colour);
-    std::vector<Coordinates> possibleMoves(const Piece& lastPlayedPiece);
+    std::vector<Coordinates> possibleMoves(const Piece* lastPlayedPiece = nullptr) override;
     void print(std::ostream& os) const {
         unsigned char charName {'P'};
         if (getColour() == PieceColour::black) {

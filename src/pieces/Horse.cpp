@@ -5,7 +5,7 @@ Horse::Horse(const Int x, const Int y,Board* currentBoard, PieceColour colour)
     setType(PieceType::horse);
 }
 
-std::vector<Coordinates> Horse::possibleMoves(){
+std::vector<Coordinates> Horse::possibleMoves(const Piece* lastPlayedPiece){
     std::vector<Coordinates> moves {};
     Coordinates currentCoordinate {getCoordinates()};
 

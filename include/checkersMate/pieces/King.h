@@ -5,7 +5,7 @@
 class King : public Piece{
 public:
     King(const Int x, const Int y,Board* currentBoard, PieceColour colour);
-    std::vector<Coordinates> possibleMoves() override;
+    std::vector<Coordinates> possibleMoves(const Piece* lastPlayedPiece = nullptr) override;
     void print(std::ostream& os) const {
         unsigned char charName {'K'};
         if (getColour() == PieceColour::black) {

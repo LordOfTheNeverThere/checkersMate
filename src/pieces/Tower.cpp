@@ -7,7 +7,7 @@ Tower::Tower(const Int x, const Int y,Board* currentBoard, PieceColour colour)
     setType(PieceType::tower);
 }
 
-std::vector<Coordinates> Tower::possibleMoves() {
+std::vector<Coordinates> Tower::possibleMoves(const Piece* lastPlayedPiece) {
     std::vector<Coordinates> moves {};
     Board* currentBoard {getCurrentBoard()};
 

@@ -8,12 +8,12 @@
 
 class ChessTools {
 public:
-    static std::set<Coordinates> getCoordinatesSet(const std::vector<Piece>& pieces) {
-        std::set<Coordinates> coords {};
-        for (auto piece : pieces) {
-            coords.insert(piece.getCoordinates());
-        }
-        return coords;
-    }
+    // static std::set<Coordinates> getCoordinatesSet(const std::vector<Piece*>& pieces) {
+    //     std::set<Coordinates> coords {};
+    //     for (auto piece : pieces) {
+    //         coords.insert(piece->getCoordinates());
+    //     }
+    //     return coords;
+    // }
 };
 #endif //CHECKERSMATE_CHESSTOOLS_H

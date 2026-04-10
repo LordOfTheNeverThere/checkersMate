@@ -27,7 +27,7 @@ public:
     Piece();
     Piece(const Int x, const Int y,Board* currentBoard, PieceColour colour);
 
-    virtual std::vector<Coordinates> possibleMoves();
+    virtual std::vector<Coordinates> possibleMoves(const Piece* lastPlayedPiece = nullptr) = 0;
 
     Board* getCurrentBoard() const {
         return m_currentBoard;
@@ -35,6 +35,10 @@ public:
 
     Coordinates getCoordinates() const {
         return m_coordinates;
+    }
+
+    Coordinates *getCoordinatesPtr() {
+        return &m_coordinates;
     }
 
     void setCoordinates(const Int x, const Int y) {

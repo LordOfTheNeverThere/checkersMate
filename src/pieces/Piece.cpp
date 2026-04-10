@@ -2,7 +2,6 @@
 
 #include "checkersMate/Board.h"
 
-std::vector<Coordinates> Piece::possibleMoves() { return {}; }
 
 bool Piece::isFriendlyFire(const Coordinates &newCoords) const {
     bool returnVal {false};

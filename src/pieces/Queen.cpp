@@ -8,7 +8,7 @@ Queen::Queen(const Int x, const Int y,Board* currentBoard, PieceColour colour)
     setType(PieceType::queen);
 }
 
-std::vector<Coordinates> Queen::possibleMoves() {
+std::vector<Coordinates> Queen::possibleMoves(const Piece* lastPlayedPiece) {
     std::vector<Coordinates> moves {};
     Board* currentBoard {getCurrentBoard()};
 

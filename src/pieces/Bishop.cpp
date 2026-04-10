@@ -6,7 +6,7 @@ Bishop::Bishop(const Int x, const Int y,Board* currentBoard, PieceColour colour)
     setType(PieceType::bishop);
 }
 
-std::vector<Coordinates> Bishop::possibleMoves() {
+std::vector<Coordinates> Bishop::possibleMoves(const Piece* lastPlayedPiece) {
     std::vector<Coordinates> moves {};
     Board* currentBoard {getCurrentBoard()};
 
