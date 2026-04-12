@@ -1,6 +1,5 @@
 #ifndef CHECKERSMATE_BOARD_H
 #define CHECKERSMATE_BOARD_H
-#include <array>
 #include <memory>
 
 #include "gtest/gtest.h"
@@ -12,13 +11,13 @@ class Board{
     FRIEND_TEST(MethodChecking, BoardConstructorV2);
     FRIEND_TEST(MethodChecking, possibleMovesStartingPosition);
     FRIEND_TEST(MethodChecking, possibleMovesOnEnemyPieces);
+    FRIEND_TEST(MethodChecking, emptyTheBoard);
 
-    std::array<std::unique_ptr<Piece>, 32> m_pieces {}; //TODO: Changes this to a map of map of a map, where the first sorts by colour and then the other by piece type and the last has a pointer to the coordinates of the piece (the val)
-    std::map<PieceColour, std::map<PieceType, std::map<Coordinates*, std::unique_ptr<Piece>>>> m_piecesV2;
+    std::map<PieceColour, std::map<PieceType, std::map<Coordinates*, std::unique_ptr<Piece>>>> m_pieces;
 public:
     Board();
 
-    std::set<Piece *> generalFilter(const PieceType &type = PieceType::empty, const PieceColour &colour = PieceColour::empty, const Coordinates *coords = nullptr);
+    std::set<Piece *> generalFilter(const PieceType &type = PieceType::empty, const PieceColour &colour = PieceColour::empty, const Coordinates *coords = nullptr) const;
 
     bool isSquareFree(const Coordinates newCoords) const;
 
@@ -29,7 +28,7 @@ public:
     // Piece pieceAtCoordinates(const Coordinates newCoords) const;
     Piece* piecePtrAtCoordinates(const Coordinates newCoords) const;
 
-    void emptyTheBoard(std::set<Piece *> piecesToKeep);
+    void emptyTheBoard(std::set<Piece *> piecesToKeep  = {});
 
     std::set<Piece *> queryPieces(const PieceType &type = PieceType::empty, const PieceColour &colour = PieceColour::empty);
 

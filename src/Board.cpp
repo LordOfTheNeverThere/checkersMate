@@ -16,113 +16,107 @@ Board::Board() {
 
     for (int i = 0; i < 8; ++i) {
         auto pawnPtr = std::make_unique<Pawn>(i,pawnWhiteRow,this, white);
-        m_piecesV2[white][PieceType::pawn][pawnPtr->getCoordinatesPtr()] = std::move(pawnPtr);
+        m_pieces[white][PieceType::pawn][pawnPtr->getCoordinatesPtr()] = std::move(pawnPtr);
         pawnPtr = std::make_unique<Pawn>(i,pawnBlackRow,this, black);
-        m_piecesV2[black][PieceType::pawn][pawnPtr->getCoordinatesPtr()] = std::move(pawnPtr);
+        m_pieces[black][PieceType::pawn][pawnPtr->getCoordinatesPtr()] = std::move(pawnPtr);
 
         if (i == 0 || i == 7) {
             auto towerPtr = std::make_unique<Tower>(i, specialWhiteRow,this, white);
-            m_piecesV2[white][PieceType::tower][towerPtr->getCoordinatesPtr()] = std::move(towerPtr);
+            m_pieces[white][PieceType::tower][towerPtr->getCoordinatesPtr()] = std::move(towerPtr);
             towerPtr = std::make_unique<Tower>(i, specialBlackRow,this, black);
-            m_piecesV2[black][PieceType::tower][towerPtr->getCoordinatesPtr()] = std::move(towerPtr);
+            m_pieces[black][PieceType::tower][towerPtr->getCoordinatesPtr()] = std::move(towerPtr);
         } else if (i==1 || i==6) {
             auto horsePtr = std::make_unique<Horse>(i, specialWhiteRow,this, white);
-            m_piecesV2[white][PieceType::horse][horsePtr->getCoordinatesPtr()] = std::move(horsePtr);
+            m_pieces[white][PieceType::horse][horsePtr->getCoordinatesPtr()] = std::move(horsePtr);
             horsePtr = std::make_unique<Horse>(i, specialBlackRow,this, black);
-            m_piecesV2[black][PieceType::horse][horsePtr->getCoordinatesPtr()] = std::move(horsePtr);
+            m_pieces[black][PieceType::horse][horsePtr->getCoordinatesPtr()] = std::move(horsePtr);
         } else if (i==2 || i==5) {
             auto bishopPtr = std::make_unique<Bishop>(i, specialWhiteRow,this, white);
-            m_piecesV2[white][PieceType::bishop][bishopPtr->getCoordinatesPtr()] = std::move(bishopPtr);
+            m_pieces[white][PieceType::bishop][bishopPtr->getCoordinatesPtr()] = std::move(bishopPtr);
             bishopPtr = std::make_unique<Bishop>(i, specialBlackRow,this, black);
-            m_piecesV2[black][PieceType::bishop][bishopPtr->getCoordinatesPtr()] = std::move(bishopPtr);
+            m_pieces[black][PieceType::bishop][bishopPtr->getCoordinatesPtr()] = std::move(bishopPtr);
         } else if (i==3) {
             auto queenPtr = std::make_unique<Queen>(i,specialWhiteRow,this, white);
-            m_piecesV2[white][PieceType::queen][queenPtr->getCoordinatesPtr()] = std::move(queenPtr);
+            m_pieces[white][PieceType::queen][queenPtr->getCoordinatesPtr()] = std::move(queenPtr);
             queenPtr = std::make_unique<Queen>(i,specialBlackRow,this, black);
-            m_piecesV2[black][PieceType::queen][queenPtr->getCoordinatesPtr()] = std::move(queenPtr);
+            m_pieces[black][PieceType::queen][queenPtr->getCoordinatesPtr()] = std::move(queenPtr);
         } else if (i==4) {
             auto kingPtr = std::make_unique<King>(i,specialWhiteRow,this, white);
-            m_piecesV2[white][PieceType::king][kingPtr->getCoordinatesPtr()] = std::move(kingPtr);
+            m_pieces[white][PieceType::king][kingPtr->getCoordinatesPtr()] = std::move(kingPtr);
             kingPtr = std::make_unique<King>(i,specialBlackRow,this, black);
-            m_piecesV2[black][PieceType::king][kingPtr->getCoordinatesPtr()] = std::move(kingPtr);
+            m_pieces[black][PieceType::king][kingPtr->getCoordinatesPtr()] = std::move(kingPtr);
         }
 
     }
 }
 
-std::set<Piece *> Board::generalFilter(const PieceType& type, const PieceColour& colour, const Coordinates* coords) {
+std::set<Piece *> Board::generalFilter(const PieceType& type, const PieceColour& colour, const Coordinates* coords) const {
     std::set<Piece *> result {};
-    if (colour != PieceColour::empty && type != PieceType::empty) {
-        for (auto ite = m_piecesV2[colour][type].begin(); ite != m_piecesV2[colour][type].end(); ++ite) {
-            if (coords == nullptr || (*(ite->first) == *coords) ) {
-                result.insert(ite->second.get());
-            }
-        }
-    } else if (colour != PieceColour::empty) {
-        for (auto typeIterator = m_piecesV2[colour].begin(); typeIterator != m_piecesV2[colour].end(); ++typeIterator) {
-            for (auto pieceIterator = typeIterator->second.begin(); pieceIterator != typeIterator->second.end(); ++pieceIterator) {
-                if (coords == nullptr || (*(pieceIterator->first) == *coords) ) {
-                    result.insert(pieceIterator->second.get());
-                }
-            }
-        }
-    } else if (type != PieceType::empty) {
-        for (auto colourIterator=m_piecesV2.begin(); colourIterator != m_piecesV2.end(); ++colourIterator) {
+
+    if (coords != nullptr ) {
+        for (auto colourIterator=m_pieces.begin(); colourIterator != m_pieces.end(); ++colourIterator) {
             for (auto typeIterator=colourIterator->second.begin(); typeIterator != colourIterator->second.end(); ++typeIterator) {
-                if (typeIterator->first == type) {
-                    auto pieceIterator = typeIterator->second.begin();
-                    if (coords == nullptr || (*(pieceIterator->first) == *coords) ) {
+                for (auto pieceIterator = typeIterator->second.begin(); pieceIterator != typeIterator->second.end(); ++ pieceIterator) {
+                    if ((*(pieceIterator->first) == *coords) ) {
                         result.insert(pieceIterator->second.get());
+                        return result;
                     }
                 }
             }
         }
-    } else if (coords != nullptr ) {
-        for (auto colourIterator=m_piecesV2.begin(); colourIterator != m_piecesV2.end(); ++colourIterator) {
+    } else if (colour != PieceColour::empty && type != PieceType::empty) {
+        for (auto ite = m_pieces.at(colour).at(type).begin(); ite != m_pieces.at(colour).at(type).end(); ++ite) {
+                result.insert(ite->second.get());
+        }
+    } else if (colour != PieceColour::empty) {
+        for (auto typeIterator = m_pieces.at(colour).begin(); typeIterator != m_pieces.at(colour).end(); ++typeIterator) {
+            for (auto pieceIterator = typeIterator->second.begin(); pieceIterator != typeIterator->second.end(); ++pieceIterator) {
+                result.insert(pieceIterator->second.get());
+            }
+        }
+    } else if (type != PieceType::empty) {
+        for (auto colourIterator=m_pieces.begin(); colourIterator != m_pieces.end(); ++colourIterator) {
             for (auto typeIterator=colourIterator->second.begin(); typeIterator != colourIterator->second.end(); ++typeIterator) {
-                auto pieceIterator = typeIterator->second.begin();
-                if ((*(pieceIterator->first) == *coords) ) {
-                    result.insert(pieceIterator->second.get());
+                if (typeIterator->first == type) {
+                    result.insert(typeIterator->second.begin()->second.get());
                 }
-
             }
         }
     }
     return result;
 }
 
-Piece* Board::piecePtrAtCoordinates(const Coordinates newCoords) const { // TODO: Redo for new m_pieces
-    Piece* pieceAtPlace {};
-
-    for (const auto& piece: m_pieces) {
-        if (piece && piece->getCoordinates() == newCoords) {
-            pieceAtPlace = piece.get();
-        }
-    }
-
-    return pieceAtPlace;
-}
-
-void Board::emptyTheBoard(std::set<Piece*> piecesToKeep = {}) { // TODO: Redo for new m_pieces
-    for (auto& piece: m_pieces) {
-        if (piecesToKeep.find(piece.get()) == piecesToKeep.end()) {
-            piece.reset();
-        }
+Piece* Board::piecePtrAtCoordinates(const Coordinates newCoords) const {
+    std::set<Piece *> pieces {generalFilter(PieceType::empty, PieceColour::empty, &newCoords)};
+    if (pieces.empty()) {
+        return nullptr;
+    } else {
+        return *pieces.begin();
     }
 }
 
-std::set<Piece*> Board::queryPieces(const PieceType& type, const PieceColour& colour) { // TODO: Redo for new m_pieces
-    std::set<Piece*> pieces {};
-    for (const auto& piece : m_pieces) {
-        if ((type == PieceType::empty || piece->getType() == type)
-            && ( colour == PieceColour::empty || piece->getColour() == colour)) {
-            pieces.insert(piece.get());
+void Board::emptyTheBoard(std::set<Piece*> piecesToKeep) {
+    auto colourIterator=m_pieces.begin();
+    while (colourIterator != m_pieces.end()) {
+        auto typeIterator=colourIterator->second.begin();
+        while (typeIterator != colourIterator->second.end()) {
+            auto pieceIterator = typeIterator->second.begin();
+            while (pieceIterator != typeIterator->second.end()) {
+                if (piecesToKeep.find(pieceIterator->second.get()) == piecesToKeep.end()) {
+                    pieceIterator = typeIterator->second.erase(pieceIterator);
+                } else ++pieceIterator;
+            }
+            if (typeIterator->second.empty()) {
+                typeIterator = colourIterator->second.erase(typeIterator);
+            } else ++typeIterator;
         }
+        if (colourIterator->second.empty()) {
+            colourIterator = m_pieces.erase(colourIterator);
+        } else ++colourIterator;
     }
-    return  pieces;
 }
 
-bool Board::isSquareFree(const Coordinates newCoords) const { // TODO: Redo for new m_pieces
+bool Board::isSquareFree(const Coordinates newCoords) const {
     return !piecePtrAtCoordinates(newCoords);
 }
 

@@ -122,60 +122,13 @@ TEST(MethodChecking, BoardConstructorV2) {
 
 TEST(MethodChecking, checkIfBoardConstructorMapWorksWithCoordinatesPtr) {
     Board theBoard {};
-    auto whiteQueenMap {theBoard.m_piecesV2.at(PieceColour::white).at(PieceType::queen).begin()};
+    auto whiteQueenMap {theBoard.m_pieces.at(PieceColour::white).at(PieceType::queen).begin()};
     EXPECT_EQ(*(whiteQueenMap->first), Coordinates(3,0));
     whiteQueenMap->second->setCoordinates(5,5);
     EXPECT_EQ(*(whiteQueenMap->first), Coordinates(5,5));
-    whiteQueenMap = theBoard.m_piecesV2.at(PieceColour::white).at(PieceType::queen).begin();
+    whiteQueenMap = theBoard.m_pieces.at(PieceColour::white).at(PieceType::queen).begin();
     EXPECT_EQ(*(whiteQueenMap->first), whiteQueenMap->second->getCoordinates());
     EXPECT_EQ(*(whiteQueenMap->first), Coordinates(5,5));
-}
-TEST(MethodChecking, pieceAtCoordinates) {
-    Board theBoard {};
-
-    for (Int row = 6; row < 8; row++) {
-        for (int col = 0; col < 8; col++) {
-            Piece* somePiece {theBoard.piecePtrAtCoordinates(Coordinates(col, row))};
-            EXPECT_TRUE(somePiece->getColour() == PieceColour::black);
-            if (row == 6) {
-                EXPECT_TRUE(somePiece->getType() == PieceType::pawn);
-            } else {
-                if (col == 0 || col == 7) {
-                    EXPECT_TRUE(somePiece->getType() == PieceType::tower);
-                } else if (col == 1 || col == 6) {
-                    EXPECT_TRUE(somePiece->getType() == PieceType::horse);
-                } else if (col == 2 || col == 5) {
-                    EXPECT_TRUE(somePiece->getType() == PieceType::bishop);
-                } else if (col == 3) {
-                    EXPECT_TRUE(somePiece->getType() == PieceType::queen);
-                } else if (col == 4) {
-                    EXPECT_TRUE(somePiece->getType() == PieceType::king);
-                }
-            }
-        }
-    }
-
-    for (Int row = 0; row < 2; row++) {
-        for (int col = 0; col < 8; col++) {
-            Piece* somePiece {theBoard.piecePtrAtCoordinates(Coordinates(col, row))};
-            EXPECT_TRUE(somePiece->getColour() == PieceColour::white);
-            if (row == 1) {
-                EXPECT_TRUE(somePiece->getType() == PieceType::pawn);
-            } else {
-                if (col == 0 || col == 7) {
-                    EXPECT_TRUE(somePiece->getType() == PieceType::tower);
-                } else if (col == 1 || col == 6) {
-                    EXPECT_TRUE(somePiece->getType() == PieceType::horse);
-                } else if (col == 2 || col == 5) {
-                    EXPECT_TRUE(somePiece->getType() == PieceType::bishop);
-                } else if (col == 3) {
-                    EXPECT_TRUE(somePiece->getType() == PieceType::queen);
-                } else if (col == 4) {
-                    EXPECT_TRUE(somePiece->getType() == PieceType::king);
-                }
-            }
-        }
-    }
 }
 
 TEST(MethodChecking, piecePtrAtCoordinates) {
@@ -227,21 +180,7 @@ TEST(MethodChecking, piecePtrAtCoordinates) {
     }
 }
 
-
 TEST(MethodChecking, isSquareFree) {
-    Board theBoard {};
-    for (Int row = 2; row < 6; row++) {
-        for (int col = 0; col < 8; col++) {
-            Piece* somePiece {theBoard.piecePtrAtCoordinates(Coordinates(col, row))};
-            EXPECT_EQ(somePiece, nullptr);
-            EXPECT_EQ(somePiece->getType(), PieceType::empty);
-            EXPECT_EQ(somePiece->getColour(), PieceColour::empty);
-            EXPECT_TRUE(theBoard.isSquareFree(Coordinates(col, row)));
-        }
-    }
-}
-
-TEST(MethodChecking, isSquareFreePtr) {
     Board theBoard {};
     for (Int row = 2; row < 6; row++) {
         for (int col = 0; col < 8; col++) {
@@ -249,4 +188,33 @@ TEST(MethodChecking, isSquareFreePtr) {
             EXPECT_FALSE(somePiece);
         }
     }
+}
+
+TEST(MethodChecking, emptyTheBoard) {
+    Board theBoard {};
+    theBoard.emptyTheBoard();
+    EXPECT_EQ(theBoard.m_pieces.size(), 0);
+
+    Board otherBoard {};
+    Piece * whiteKing {otherBoard.piecePtrAtCoordinates(Coordinates(4,0))};
+    Piece * whitePawn {otherBoard.piecePtrAtCoordinates(Coordinates(0,1))};
+    otherBoard.emptyTheBoard(std::set<Piece*> {whitePawn, whiteKing});
+    EXPECT_EQ(otherBoard.m_pieces.size(), 1);
+    EXPECT_EQ(otherBoard.m_pieces.at(PieceColour::white).size(), 2);
+    EXPECT_EQ(otherBoard.m_pieces.at(PieceColour::white).at(PieceType::pawn).size(), 1);
+    EXPECT_EQ(otherBoard.m_pieces.at(PieceColour::white).at(PieceType::king).size(), 1);
+    EXPECT_EQ(otherBoard.m_pieces.at(PieceColour::white).at(PieceType::pawn).begin()->second->getCoordinates(), Coordinates(0,1));
+    EXPECT_EQ(otherBoard.m_pieces.at(PieceColour::white).at(PieceType::king).begin()->second->getCoordinates(), Coordinates(4,0));
+
+    Board anotherBoard {};
+    Piece * whiteTower {anotherBoard.piecePtrAtCoordinates(Coordinates(0,0))};
+    Piece * blackPawn {anotherBoard.piecePtrAtCoordinates(Coordinates(0,6))};
+    Piece * anotherBlackPawn {anotherBoard.piecePtrAtCoordinates(Coordinates(3,6))};
+    anotherBoard.emptyTheBoard(std::set<Piece*> {whiteTower, blackPawn, anotherBlackPawn});
+    EXPECT_EQ(anotherBoard.m_pieces.size(), 2);
+    EXPECT_EQ(anotherBoard.m_pieces.at(PieceColour::black).size(), 1);
+    EXPECT_EQ(anotherBoard.m_pieces.at(PieceColour::black).at(PieceType::pawn).size(), 2);
+    EXPECT_EQ(anotherBoard.m_pieces.at(PieceColour::white).size(), 1);
+    EXPECT_EQ(anotherBoard.m_pieces.at(PieceColour::white).at(PieceType::tower).size(), 1);
+    EXPECT_EQ(anotherBoard.m_pieces.at(PieceColour::white).at(PieceType::tower).begin()->second->getCoordinates(), Coordinates(0,0));
 }
