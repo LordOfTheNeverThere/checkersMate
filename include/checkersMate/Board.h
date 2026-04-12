@@ -1,7 +1,6 @@
 #ifndef CHECKERSMATE_BOARD_H
 #define CHECKERSMATE_BOARD_H
 #include <array>
-#include <iomanip>
 #include <memory>
 
 #include "gtest/gtest.h"
@@ -9,7 +8,8 @@
 
 class Board{
     friend class Piece;
-    FRIEND_TEST(MethodChecking, BoardConstructor);
+    FRIEND_TEST(MethodChecking, checkIfBoardConstructorMapWorksWithCoordinatesPtr);
+    FRIEND_TEST(MethodChecking, BoardConstructorV2);
     FRIEND_TEST(MethodChecking, possibleMovesStartingPosition);
     FRIEND_TEST(MethodChecking, possibleMovesOnEnemyPieces);
 
@@ -19,6 +19,8 @@ public:
     Board();
 
     Board(bool anotherOne);
+
+    std::set<Piece *> generalFilter(const PieceType &type = PieceType::empty, const PieceColour &colour = PieceColour::empty, const Coordinates *coords = nullptr);
 
     bool isSquareFree(const Coordinates newCoords) const;
 

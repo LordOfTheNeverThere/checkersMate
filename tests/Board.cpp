@@ -113,6 +113,23 @@
 }
 
 */
+
+TEST(MethodChecking, BoardConstructorV2) {
+    Board theBoard {true};
+
+}
+
+
+TEST(MethodChecking, checkIfBoardConstructorMapWorksWithCoordinatesPtr) {
+    Board theBoard {true};
+    auto whiteQueenMap {theBoard.m_piecesV2.at(PieceColour::white).at(PieceType::queen).begin()};
+    EXPECT_EQ(*(whiteQueenMap->first), Coordinates(3,0));
+    whiteQueenMap->second->setCoordinates(5,5);
+    EXPECT_EQ(*(whiteQueenMap->first), Coordinates(5,5));
+    whiteQueenMap = theBoard.m_piecesV2.at(PieceColour::white).at(PieceType::queen).begin();
+    EXPECT_EQ(*(whiteQueenMap->first), whiteQueenMap->second->getCoordinates());
+    EXPECT_EQ(*(whiteQueenMap->first), Coordinates(5,5));
+}
 TEST(MethodChecking, pieceAtCoordinates) {
     Board theBoard {};
 
