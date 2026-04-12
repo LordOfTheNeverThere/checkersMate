@@ -13,35 +13,6 @@ Board::Board() {
     Int pawnWhiteRow = specialWhiteRow +1;
     Int specialBlackRow = 7;
     Int pawnBlackRow = specialBlackRow - 1;
-    for (int i = 0; i < 8; i++) {
-        m_pieces.at(i + 8) = std::make_unique<Pawn>(i,pawnWhiteRow,this, white);
-        m_pieces.at(i + 16) = std::make_unique<Pawn>(i,pawnBlackRow,this, black);
-        if (i == 0 || i == 7) {
-            m_pieces.at(i) = std::make_unique<Tower>(i, specialWhiteRow,this, white);
-            m_pieces.at(i + 24) = std::make_unique<Tower>(i, specialBlackRow,this, black);
-        } else if (i==1 || i==6) {
-            m_pieces.at(i) = std::make_unique<Horse>(i, specialWhiteRow,this, white);
-            m_pieces.at(i + 24) = std::make_unique<Horse>(i, specialBlackRow,this, black);
-        } else if (i==2 || i==5) {
-            m_pieces.at(i) = std::make_unique<Bishop>(i, specialWhiteRow,this, white);
-            m_pieces.at(i + 24) = std::make_unique<Bishop>(i, specialBlackRow,this, black);
-        } else if (i==3) {
-            m_pieces.at(i) = std::make_unique<Queen>(i,specialWhiteRow,this, white);
-            m_pieces.at(i + 24) = std::make_unique<Queen>(i,specialBlackRow,this, black);
-        } else if (i==4) {
-            m_pieces.at(i) = std::make_unique<King>(i,specialWhiteRow,this, white);
-            m_pieces.at(i + 24) = std::make_unique<King>(i,specialBlackRow,this, black);
-        }
-    }
-}
-
-Board::Board(bool anotherOne) {
-    PieceColour white = PieceColour::white;
-    PieceColour black = PieceColour::black;
-    Int specialWhiteRow = 0;
-    Int pawnWhiteRow = specialWhiteRow +1;
-    Int specialBlackRow = 7;
-    Int pawnBlackRow = specialBlackRow - 1;
 
     for (int i = 0; i < 8; ++i) {
         auto pawnPtr = std::make_unique<Pawn>(i,pawnWhiteRow,this, white);
@@ -79,20 +50,6 @@ Board::Board(bool anotherOne) {
     }
 }
 
-
-//
-// Piece Board::pieceAtCoordinates(const Coordinates newCoords) const {
-//     Piece pieceAtPlace {};
-//
-//     for (const auto& piece: m_pieces) {
-//         if (piece && piece->getCoordinates() == newCoords) {
-//             pieceAtPlace = *piece;
-//         }
-//     }
-//
-//     return pieceAtPlace;
-// }
-
 std::set<Piece *> Board::generalFilter(const PieceType& type, const PieceColour& colour, const Coordinates* coords) {
     std::set<Piece *> result {};
     if (colour != PieceColour::empty && type != PieceType::empty) {
@@ -118,6 +75,16 @@ std::set<Piece *> Board::generalFilter(const PieceType& type, const PieceColour&
                         result.insert(pieceIterator->second.get());
                     }
                 }
+            }
+        }
+    } else if (coords != nullptr ) {
+        for (auto colourIterator=m_piecesV2.begin(); colourIterator != m_piecesV2.end(); ++colourIterator) {
+            for (auto typeIterator=colourIterator->second.begin(); typeIterator != colourIterator->second.end(); ++typeIterator) {
+                auto pieceIterator = typeIterator->second.begin();
+                if ((*(pieceIterator->first) == *coords) ) {
+                    result.insert(pieceIterator->second.get());
+                }
+
             }
         }
     }

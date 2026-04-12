@@ -18,8 +18,6 @@ class Board{
 public:
     Board();
 
-    Board(bool anotherOne);
-
     std::set<Piece *> generalFilter(const PieceType &type = PieceType::empty, const PieceColour &colour = PieceColour::empty, const Coordinates *coords = nullptr);
 
     bool isSquareFree(const Coordinates newCoords) const;
