@@ -92,14 +92,13 @@ std::set<Coordinates> Coordinates::generateNegXNegYSet(const Int max) const {
 
 std::set<Coordinates> Coordinates::generateCircleSet(const Int max) const {
     std::set<Coordinates> result {};
-    result.merge(generateNegXPosYSet(max));
-    result.merge(generatePosYSet(max));
-    result.merge(generatePosXPosYSet(max));
-    result.merge(generatePosXSet(max));
-    result.merge(generatePosXNegYSet(max));
-    result.merge(generateNegYSet(max));
-    result.merge(generateNegXNegYSet(max));
-    result.merge(generateNegXSet(max));
+    for (int x = getX() - max; x <= getX() + max; ++x) {
+        for (int y = getY() - max; y <= getY() + max; ++y) {
+            if (x != getX() || y != getY()) {
+                result.emplace(x,y);
+            }
+        }
+    }
     return result;
 }
 
