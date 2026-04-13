@@ -21,16 +21,15 @@ public:
 
     bool isSquareFree(const Coordinates newCoords) const;
 
-    bool isKingChecked(const PieceColour &colour);
+    bool isKingChecked(const PieceColour &colour) const;
 
     std::vector<Coordinates> checkChecker(std::vector<Coordinates>& moves, Piece* piecePtr);
 
-    // Piece pieceAtCoordinates(const Coordinates newCoords) const;
     Piece* piecePtrAtCoordinates(const Coordinates newCoords) const;
 
-    void emptyTheBoard(std::set<Piece *> piecesToKeep  = {});
+    Piece *piecePtrAtCoordinates(Int x, Int y) const;
 
-    std::set<Piece *> queryPieces(const PieceType &type = PieceType::empty, const PieceColour &colour = PieceColour::empty);
+    void emptyTheBoard(std::set<Piece *> piecesToKeep  = {});
 
     void printBoardView(PieceColour& viewFromColour) const; // Create a function which prints the board from 0,0 for white and 7,7 for black
     // friend std::ostream& operator<<(std::ostream& os, const Board& board) {

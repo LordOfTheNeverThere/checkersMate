@@ -95,6 +95,22 @@ Piece* Board::piecePtrAtCoordinates(const Coordinates newCoords) const {
     }
 }
 
+Piece* Board::piecePtrAtCoordinates(const Int x, const Int y) const {
+    Coordinates newCoords {0,0};
+    try {
+        newCoords.setX(x);
+        newCoords.setY(y);
+    } catch (OutOfBoardException& e) {
+        return nullptr;
+    }
+    std::set<Piece *> pieces {generalFilter(PieceType::empty, PieceColour::empty, &newCoords)};
+    if (pieces.empty()) {
+        return nullptr;
+    } else {
+        return *pieces.begin();
+    }
+}
+
 void Board::emptyTheBoard(std::set<Piece*> piecesToKeep) {
     auto colourIterator=m_pieces.begin();
     while (colourIterator != m_pieces.end()) {
@@ -120,16 +136,69 @@ bool Board::isSquareFree(const Coordinates newCoords) const {
     return !piecePtrAtCoordinates(newCoords);
 }
 
-// bool Board::isKingChecked(const PieceColour& colour) {
-//
-//     const std::set<Piece*> piecesThatAreKingOfSameColour {queryPieces(PieceType::king, colour)};
-//     if (piecesThatAreKingOfSameColour.size() == 0) {
-//         throw TheKingIsDeadException();
-//     }
-//     Piece* kingPtr = *piecesThatAreKingOfSameColour.begin();
-//     Coordinates kingCurrentPosition {kingPtr->getCoordinates()};
-//
-// }
+bool Board::isKingChecked(const PieceColour& colour) const {
+    const std::set<Piece*> piecesThatAreKingOfSameColour {generalFilter(PieceType::king, colour)};
+    if (piecesThatAreKingOfSameColour.size() == 0) {
+        throw TheKingIsDeadException();
+    }
+    Piece* kingPtr = *piecesThatAreKingOfSameColour.begin();
+    Coordinates kingCurrentPosition {kingPtr->getCoordinates()};
+
+    //Checked by Horse
+    for (auto coord: kingCurrentPosition.generateHorsePositions()) {
+        Piece* possibleHorse {piecePtrAtCoordinates(coord)};
+        if (possibleHorse && possibleHorse->getType() == PieceType::horse && possibleHorse->getColour() == !colour) {
+            return true;
+        }
+    }
+
+    // Checked by Towers/Queen
+    for (auto set : std::set<std::set<Coordinates>>{kingCurrentPosition.generatePosYSet(), kingCurrentPosition.generateNegYSet(),
+        kingCurrentPosition.generatePosXSet(), kingCurrentPosition.generateNegXSet()}) {
+        for (auto coord : set) {
+            Piece * otherPiece {piecePtrAtCoordinates(coord)};
+            if (otherPiece) {
+                if (otherPiece->getColour() == !colour && (otherPiece->getType() == PieceType::queen || otherPiece->getType() == PieceType::tower)) {
+                    return true;
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+
+    // Checked by Bishop/Queen
+    for (auto set : std::set<std::set<Coordinates>>{kingCurrentPosition.generateNegXPosYSet(), kingCurrentPosition.generatePosXPosYSet(),
+    kingCurrentPosition.generatePosXNegYSet(), kingCurrentPosition.generateNegXNegYSet()}) {
+        for (auto coord : set) {
+            Piece * otherPiece {piecePtrAtCoordinates(coord)};
+            if (otherPiece) {
+                if (otherPiece->getColour() == !colour && (otherPiece->getType() == PieceType::queen || otherPiece->getType() == PieceType::bishop)) {
+                    return true;
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+
+    //Checked by King
+    for (auto coord: kingCurrentPosition.generateCircleSet(1)) {
+        Piece* possibleKing {piecePtrAtCoordinates(coord)};
+        if (possibleKing && possibleKing->getType() == PieceType::king && possibleKing->getColour() == !colour) {
+            return true;
+        }
+    }
+
+    //Checked by pawns
+    for (auto coord: kingCurrentPosition.generateEnemyPawnPositions(colour)) {
+        Piece* possiblePawn {piecePtrAtCoordinates(coord)};
+        if (possiblePawn && possiblePawn->getType() == PieceType::pawn && possiblePawn->getColour() == !colour) {
+            return true;
+        }
+    }
+    return false;
+}
 
 // A function that trims possible moves that might place you in check
 // std::vector<Coordinates> Board::checkChecker(std::vector<Coordinates>& moves, Piece* piecePtr) {
