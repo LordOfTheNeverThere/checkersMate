@@ -6,18 +6,18 @@ Bishop::Bishop(const Int x, const Int y,Board* currentBoard, PieceColour colour)
     setType(PieceType::bishop);
 }
 
-std::vector<Coordinates> Bishop::possibleMoves(const Piece* lastPlayedPiece) {
-    std::vector<Coordinates> moves {};
+std::set<Coordinates> Bishop::possibleMoves(const Piece* lastPlayedPiece) {
+    std::set<Coordinates> moves {};
     Board* currentBoard {getCurrentBoard()};
 
     auto handleNewCoords {[&moves, &currentBoard,this](Int x, Int y) -> bool {
         try {
             Coordinates putativeCoord {x, y};
             if (currentBoard->isSquareFree(putativeCoord)) {
-                moves.push_back(putativeCoord);
+                moves.insert(putativeCoord);
                 return false;
             } else if (!isFriendlyFire(putativeCoord)) {
-                moves.push_back(putativeCoord); // Will be the last position where moving is allowed, will return true since it will go to the end of the function
+                moves.insert(putativeCoord); // Will be the last position where moving is allowed, will return true since it will go to the end of the function
             }
         } catch (OutOfBoardException& e) {}
         return true;

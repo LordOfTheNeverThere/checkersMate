@@ -5,4 +5,4 @@ King::King(const Int x, const Int y,Board* currentBoard, PieceColour colour)
     setType(PieceType::king);
 }
 
-std::vector<Coordinates> King::possibleMoves(const Piece* lastPlayedPiece) { return {}; } //TODO : implementation
+std::set<Coordinates> King::possibleMoves(const Piece* lastPlayedPiece) { return {}; } //TODO : implementation
