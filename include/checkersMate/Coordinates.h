@@ -65,6 +65,12 @@ public:
     std::set<Coordinates> generateEnemyPawnPositions(const PieceColour &friendlyColour) const;
 
     std::set<Coordinates> generateHorsePositions() const;
+
+    std::set<Coordinates> generatePlusPositions(Int max = 8) const;
+
+    std::set<Coordinates> generateCrossPositions(Int max = 8) const;
+
+    std::set<Coordinates> generatePlusCrossPositions(Int max = 8) const;
 };
 
 inline bool operator==(const Coordinates& lhs, const Coordinates& rhs) {

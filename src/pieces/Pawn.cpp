@@ -19,7 +19,7 @@ std::set<Coordinates> Pawn::possibleMoves(const Piece* lastPlayedPiece) {
         if (getCurrentBoard()->isSquareFree(oneForward)) {
             moves.insert(oneForward);
             Coordinates twoForward {oneForward}; twoForward.setY(twoForward.getY() + signal * 1);
-            if (getCurrentBoard()->isSquareFree(twoForward) && m_NumOfMoves == 0) moves.push_back(twoForward);
+            if (getCurrentBoard()->isSquareFree(twoForward) && m_NumOfMoves == 0) moves.insert(twoForward);
         }
     } catch (OutOfBoardException& e) {}
 

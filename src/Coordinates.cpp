@@ -148,3 +148,26 @@ std::set<Coordinates> Coordinates::generateHorsePositions() const {
     return result;
 }
 
+
+std::set<Coordinates> Coordinates::generatePlusPositions(const Int max) const {
+    std::set<Coordinates> result {};
+    for (auto set :std::set<std::set<Coordinates>>{generatePosYSet(max), generateNegYSet(max),
+        generatePosXSet(max), generateNegXSet(max)}) result.merge(set);
+    return result;
+}
+
+std::set<Coordinates> Coordinates::generateCrossPositions(const Int max) const {
+    std::set<Coordinates> result {};
+    for (auto set : std::set<std::set<Coordinates>>{generateNegXPosYSet(max), generatePosXPosYSet(max),
+        generatePosXNegYSet(max), generateNegXNegYSet(max)}) result.merge(set);
+
+    return result;
+}
+
+std::set<Coordinates> Coordinates::generatePlusCrossPositions(const Int max) const {
+    std::set<Coordinates> result {};
+    for (auto set : std::set<std::set<Coordinates>>{generatePlusPositions(max), generateCrossPositions(max)}) result.merge(set);
+
+    return result;
+}
+
