@@ -153,9 +153,9 @@ bool Board::isKingChecked(const PieceColour& colour) const {
     }
 
     // Checked by Towers/Queen
-    for (auto set : std::set<std::set<Coordinates>>{kingCurrentPosition.generatePosYSet(), kingCurrentPosition.generateNegYSet(),
-        kingCurrentPosition.generatePosXSet(), kingCurrentPosition.generateNegXSet()}) {
-        for (auto coord : set) {
+    for (auto vector : std::set<std::vector<Coordinates>>{kingCurrentPosition.generatePosYVec(), kingCurrentPosition.generateNegYVec(),
+        kingCurrentPosition.generatePosXVec(), kingCurrentPosition.generateNegXVec()}) {
+        for (auto coord : vector) {
             Piece * otherPiece {piecePtrAtCoordinates(coord)};
             if (otherPiece) {
                 if (otherPiece->getColour() == !colour && (otherPiece->getType() == PieceType::queen || otherPiece->getType() == PieceType::tower)) {
@@ -168,9 +168,9 @@ bool Board::isKingChecked(const PieceColour& colour) const {
     }
 
     // Checked by Bishop/Queen
-    for (auto set : std::set<std::set<Coordinates>>{kingCurrentPosition.generateNegXPosYSet(), kingCurrentPosition.generatePosXPosYSet(),
-    kingCurrentPosition.generatePosXNegYSet(), kingCurrentPosition.generateNegXNegYSet()}) {
-        for (auto coord : set) {
+    for (auto vector : std::set<std::vector<Coordinates>>{kingCurrentPosition.generateNegXPosYVec(), kingCurrentPosition.generatePosXPosYVec(),
+    kingCurrentPosition.generatePosXNegYVec(), kingCurrentPosition.generateNegXNegYVec()}) {
+        for (auto coord : vector) {
             Piece * otherPiece {piecePtrAtCoordinates(coord)};
             if (otherPiece) {
                 if (otherPiece->getColour() == !colour && (otherPiece->getType() == PieceType::queen || otherPiece->getType() == PieceType::bishop)) {

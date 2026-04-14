@@ -73,14 +73,14 @@ TEST(MethodChecking, generatePosYSet) {
 
     Coordinates someCoord {3,3};
 
-    for (auto coord: someCoord.generatePosYSet()) {
+    for (auto coord: someCoord.generatePosYVec()) {
         EXPECT_EQ(coord.getX(), someCoord.getX());
         EXPECT_GT(coord.getY(), someCoord.getY());
         EXPECT_LE(coord.getY(), 7);
     }
 
     Coordinates someCoord2 {3,7};
-    EXPECT_EQ(someCoord2.generatePosYSet().size(), 0);
+    EXPECT_EQ(someCoord2.generatePosYVec().size(), 0);
 }
 
 
@@ -88,92 +88,92 @@ TEST(MethodChecking, generateNegYSet) {
 
     Coordinates someCoord {3,3};
 
-    for (auto coord: someCoord.generateNegYSet()) {
+    for (auto coord: someCoord.generateNegYVec()) {
         EXPECT_EQ(coord.getX(), someCoord.getX());
         EXPECT_LT(coord.getY(), someCoord.getY());
         EXPECT_GE(coord.getY(), 0);
     }
 
     Coordinates someCoord2 {3,7};
-    EXPECT_EQ(someCoord2.generateNegYSet().size(), 7);
+    EXPECT_EQ(someCoord2.generateNegYVec().size(), 7);
 }
 
 TEST(MethodChecking, generatePosXSet) {
 
     Coordinates someCoord {0,3};
 
-    for (auto coord: someCoord.generatePosXSet()) {
+    for (auto coord: someCoord.generatePosXVec()) {
         EXPECT_EQ(coord.getY(), someCoord.getY());
         EXPECT_GT(coord.getX(), someCoord.getX());
         EXPECT_LE(coord.getX(), 7);
     }
 
     Coordinates someCoord2 {7,7};
-    EXPECT_EQ(someCoord2.generatePosXSet().size(), 0);
+    EXPECT_EQ(someCoord2.generatePosXVec().size(), 0);
 }
 
 TEST(MethodChecking, generateNegXSet) {
 
     Coordinates someCoord {3,3};
 
-    for (auto coord: someCoord.generateNegXSet()) {
+    for (auto coord: someCoord.generateNegXVec()) {
         EXPECT_EQ(coord.getY(), someCoord.getY());
         EXPECT_LT(coord.getX(), someCoord.getX());
         EXPECT_GE(coord.getX(), 0);
     }
 
     Coordinates someCoord2 {0,7};
-    EXPECT_EQ(someCoord2.generateNegXSet().size(), 0);
+    EXPECT_EQ(someCoord2.generateNegXVec().size(), 0);
 }
 
 
 TEST(MethodChecking, generateNegXPosYSet) {
     Coordinates someCoord {7,0};
-    EXPECT_EQ(someCoord.generateNegXPosYSet().size(), 7);
-    for (auto coord: someCoord.generateNegXPosYSet()) {
+    EXPECT_EQ(someCoord.generateNegXPosYVec().size(), 7);
+    for (auto coord: someCoord.generateNegXPosYVec()) {
         EXPECT_LT(coord.getX(), someCoord.getX());
         EXPECT_GT(coord.getY(), someCoord.getY());
     }
     someCoord = {0,7};
-    EXPECT_EQ(someCoord.generateNegXPosYSet().size(), 0);
+    EXPECT_EQ(someCoord.generateNegXPosYVec().size(), 0);
 }
 
 TEST(MethodChecking, generatePosXPosYSet) {
     Coordinates someCoord {0,0};
-    EXPECT_EQ(someCoord.generatePosXPosYSet().size(), 7);
-    for (auto coord: someCoord.generatePosXPosYSet()) {
+    EXPECT_EQ(someCoord.generatePosXPosYVec().size(), 7);
+    for (auto coord: someCoord.generatePosXPosYVec()) {
         EXPECT_GT(coord.getX(), someCoord.getX());
         EXPECT_GT(coord.getY(), someCoord.getY());
     }
     someCoord = {7,7};
-    EXPECT_EQ(someCoord.generatePosXPosYSet().size(), 0);
+    EXPECT_EQ(someCoord.generatePosXPosYVec().size(), 0);
 }
 
 TEST(MethodChecking, generatePosXNegYSet) {
     Coordinates someCoord {0,7};
-    EXPECT_EQ(someCoord.generatePosXNegYSet().size(), 7);
+    EXPECT_EQ(someCoord.generatePosXNegYVec().size(), 7);
 
-    for (auto coord: someCoord.generatePosXNegYSet()) {
+    for (auto coord: someCoord.generatePosXNegYVec()) {
         EXPECT_GT(coord.getX(), someCoord.getX());
         EXPECT_LT(coord.getY(), someCoord.getY());
     }
 
     someCoord = {7,0};
-    EXPECT_EQ(someCoord.generatePosXNegYSet().size(), 0);
+    EXPECT_EQ(someCoord.generatePosXNegYVec().size(), 0);
 }
 
 TEST(MethodChecking, generateNegXNegYSet) {
 
     Coordinates someCoord {7,7};
-    EXPECT_EQ(someCoord.generateNegXNegYSet().size(), 7);
+    EXPECT_EQ(someCoord.generateNegXNegYVec().size(), 7);
 
-    for (auto coord: someCoord.generateNegXNegYSet()) {
+    for (auto coord: someCoord.generateNegXNegYVec()) {
         EXPECT_LT(coord.getX(), someCoord.getX());
         EXPECT_LT(coord.getY(), someCoord.getY());
     }
 
     someCoord = {0,0};
-    EXPECT_EQ(someCoord.generateNegXNegYSet().size(), 0);
+    EXPECT_EQ(someCoord.generateNegXNegYVec().size(), 0);
 
 }
 

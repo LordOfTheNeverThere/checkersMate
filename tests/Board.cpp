@@ -218,3 +218,58 @@ TEST(MethodChecking, emptyTheBoard) {
     EXPECT_EQ(anotherBoard.m_pieces.at(PieceColour::white).at(PieceType::tower).size(), 1);
     EXPECT_EQ(anotherBoard.m_pieces.at(PieceColour::white).at(PieceType::tower).begin()->second->getCoordinates(), Coordinates(0,0));
 }
+
+TEST(MethodChecking, isKingCheckedPawns) {
+    Board theBoard {};
+    Piece* whiteKing {theBoard.piecePtrAtCoordinates(4,0)};
+    for (int i = 0; i < 8; ++i) {
+        whiteKing->setCoordinates(0,5);
+        EXPECT_TRUE(theBoard.isKingChecked(whiteKing->getColour()));
+    }
+    Piece* blackPawn {theBoard.piecePtrAtCoordinates(7,6)};
+    theBoard.emptyTheBoard({blackPawn, whiteKing});
+    whiteKing->setCoordinates(3,4);
+    blackPawn->setCoordinates(2,5);
+    EXPECT_TRUE(theBoard.isKingChecked(whiteKing->getColour()));
+
+    theBoard = {};
+    Piece* blackKing {theBoard.piecePtrAtCoordinates(4,7)};
+    for (int i = 0; i < 8; ++i) {
+        blackKing->setCoordinates(0,3);
+        EXPECT_TRUE(theBoard.isKingChecked(blackKing->getColour()));
+    }
+    Piece* whitePawn {theBoard.piecePtrAtCoordinates(7,1)};
+    theBoard.emptyTheBoard({whitePawn, blackKing});
+    blackKing->setCoordinates(5,5);
+    whitePawn->setCoordinates(6,4);
+    EXPECT_TRUE(theBoard.isKingChecked(blackKing->getColour()));
+}
+
+TEST(MethodChecking, isKingCheckedTower) {
+    Board theBoard {};
+    Piece* whiteKing {theBoard.piecePtrAtCoordinates(4,0)};
+    Piece* whitePawn {theBoard.piecePtrAtCoordinates(4,1)};
+    Piece* blackKing {theBoard.piecePtrAtCoordinates(4,7)};
+    Piece* blackPawn {theBoard.piecePtrAtCoordinates(4,6)};
+
+
+    Piece* blackTower {theBoard.piecePtrAtCoordinates(7,7)};
+    Piece* whiteTower {theBoard.piecePtrAtCoordinates(0,0)};
+
+    theBoard.emptyTheBoard({blackKing,whiteKing,blackPawn,whitePawn, blackTower, whiteTower});
+
+    blackTower->setCoordinates(4,5);
+    EXPECT_FALSE(theBoard.isKingChecked(whiteKing->getColour()));
+    whitePawn->setCoordinates(0,0);
+    EXPECT_TRUE(theBoard.isKingChecked(whiteKing->getColour()));
+    blackTower->setCoordinates(7,7);
+    whitePawn->setCoordinates(4,1);
+
+
+    whiteTower->setCoordinates(4,3);
+    EXPECT_FALSE(theBoard.isKingChecked(blackKing->getColour()));
+    blackPawn->setCoordinates(7,7);
+    EXPECT_TRUE(theBoard.isKingChecked(blackKing->getColour()));
+    whiteTower->setCoordinates(0,0);
+
+}

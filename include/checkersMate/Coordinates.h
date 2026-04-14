@@ -1,6 +1,7 @@
 #ifndef CHECKERSMATE_COORDINATES_H
 #define CHECKERSMATE_COORDINATES_H
 #include <set>
+#include <vector>
 
 #include "Exceptions.h"
 #include "pieces/PieceColour.h"
@@ -44,21 +45,21 @@ public:
         return (m_y * 8) + m_x;
     }
 
-    std::set<Coordinates> generatePosYSet(Int max = 8) const;
+    std::vector<Coordinates> generatePosYVec(Int max = 8) const;
 
-    std::set<Coordinates> generateNegYSet(Int max = 8) const;
+    std::vector<Coordinates> generateNegYVec(Int max = 8) const;
 
-    std::set<Coordinates> generatePosXSet(Int max = 8) const;
+    std::vector<Coordinates> generatePosXVec(Int max = 8) const;
 
-    std::set<Coordinates> generateNegXSet(Int max = 8) const;
+    std::vector<Coordinates> generateNegXVec(Int max = 8) const;
 
-    std::set<Coordinates> generateNegXPosYSet(Int max = 8) const;
+    std::vector<Coordinates> generateNegXPosYVec(Int max = 8) const;
 
-    std::set<Coordinates> generatePosXPosYSet(Int max = 8) const;
+    std::vector<Coordinates> generatePosXPosYVec(Int max = 8) const;
 
-    std::set<Coordinates> generatePosXNegYSet(Int max = 8) const;
+    std::vector<Coordinates> generatePosXNegYVec(Int max = 8) const;
 
-    std::set<Coordinates> generateNegXNegYSet(Int max = 8) const;
+    std::vector<Coordinates> generateNegXNegYVec(Int max = 8) const;
 
     std::set<Coordinates> generateCircleSet(Int max = 1) const;
 
