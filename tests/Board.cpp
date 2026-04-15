@@ -223,7 +223,7 @@ TEST(MethodChecking, isKingCheckedPawns) {
     Board theBoard {};
     Piece* whiteKing {theBoard.piecePtrAtCoordinates(4,0)};
     for (int i = 0; i < 8; ++i) {
-        whiteKing->setCoordinates(0,5);
+        whiteKing->setCoordinates(i,5);
         EXPECT_TRUE(theBoard.isKingChecked(whiteKing->getColour()));
     }
     Piece* blackPawn {theBoard.piecePtrAtCoordinates(7,6)};
@@ -235,7 +235,7 @@ TEST(MethodChecking, isKingCheckedPawns) {
     theBoard = {};
     Piece* blackKing {theBoard.piecePtrAtCoordinates(4,7)};
     for (int i = 0; i < 8; ++i) {
-        blackKing->setCoordinates(0,3);
+        blackKing->setCoordinates(i,2);
         EXPECT_TRUE(theBoard.isKingChecked(blackKing->getColour()));
     }
     Piece* whitePawn {theBoard.piecePtrAtCoordinates(7,1)};

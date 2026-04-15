@@ -111,11 +111,16 @@ std::set<Coordinates> Coordinates::generateEnemyPawnPositions(const PieceColour&
     std::set<Coordinates> result {};
 
     if (friendlyColour == PieceColour::black) {
-        result.insert(*generateNegXNegYVec(1).begin());
-        result.insert(*generatePosXNegYVec(1).begin());
+        std::vector<Coordinates> negXnegYPosition {generateNegXNegYVec(1)};
+        std::vector<Coordinates> posXnegYPosition {generatePosXNegYVec(1)};
+        if (negXnegYPosition.size() == 1) result.insert(*negXnegYPosition.begin());
+        if (posXnegYPosition.size() == 1) result.insert(*posXnegYPosition.begin());
+
     } else if (friendlyColour == PieceColour::white) {
-        result.insert(*generateNegXPosYVec(1).begin());
-        result.insert(*generatePosXPosYVec(1).begin());
+        std::vector<Coordinates> negXposYPosition {generateNegXPosYVec(1)};
+        std::vector<Coordinates> posXPosYPosition {generatePosXPosYVec(1)};
+        if (negXposYPosition.size() == 1) result.insert(*negXposYPosition.begin());
+        if (posXPosYPosition.size() == 1) result.insert(*posXPosYPosition.begin());
     }
 
     return result;
