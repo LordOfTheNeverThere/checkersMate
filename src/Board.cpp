@@ -201,45 +201,18 @@ bool Board::isKingChecked(const PieceColour& colour) const {
 }
 
 // A function that trims possible moves that might place you in check
-// std::vector<Coordinates> Board::checkChecker(std::vector<Coordinates>& moves, Piece* piecePtr) {
-//
-//     Piece* kingPtr {};
-//     // Populate pointer
-//     if (piecePtr->getType() == PieceType::king) {
-//         kingPtr = piecePtr;
-//     } else {
-//         const std::set<Piece*> piecesThatAreKingOfSameColour {queryPieces(PieceType::king, piecePtr->getColour())};
-//         if (piecesThatAreKingOfSameColour.size() == 0) {
-//             throw TheKingIsDeadException();
-//         }
-//         kingPtr = *piecesThatAreKingOfSameColour.begin();
-//     }
-//     std::set<Piece *> enemyPieces {queryPieces(PieceType::empty, !kingPtr->getColour())};
-//     if (enemyPieces.size() == 0) {
-//         throw TheKingIsDeadException();
-//     }
-//
-//     Coordinates currentCoordinates {piecePtr->getCoordinates()};
-//     for (auto& move: moves) {
-//         piecePtr->setCoordinates(move); // Mock move
-//         bool inCheck {false};
-//         for (auto& enemyPiece: enemyPieces) { // Check if king is in check
-//             if (enemyPiece->getCoordinates() == move) continue; // This piece has been hypothetically captured
-//             auto enemyMoves {enemyPiece->possibleMoves(piecePtr)};
-//             for (auto enemyMove: enemyMoves) {
-//                 if (enemyMove == kingPtr->getCoordinates()) {
-//                     inCheck = true;
-//                     break;
-//                 }
-//             }
-//             if (inCheck) break;
-//         }
-//         if (inCheck) {
-//             // remove
-//         }
-//
-//     }
-//     piecePtr->setCoordinates(currentCoordinates); // Undo mock moves
-//
-//     return moves;
-// }
+void Board::checkChecker(std::set<Coordinates> &moves, Piece *piecePtr) {
+    Coordinates currCoordsPiece {piecePtr->getCoordinates()};
+
+    auto movIte = moves.begin();
+    while (movIte != moves.end()) {
+        piecePtr->setCoordinates(*movIte);
+        if (isKingChecked(piecePtr->getColour())) {
+            movIte = moves.erase(movIte);
+        } else {
+            ++movIte;
+        }
+    }
+
+    piecePtr->setCoordinates(currCoordsPiece);
+}

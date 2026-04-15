@@ -23,7 +23,7 @@ public:
 
     bool isKingChecked(const PieceColour &colour) const;
 
-    std::vector<Coordinates> checkChecker(std::vector<Coordinates>& moves, Piece* piecePtr);
+    void checkChecker(std::set<Coordinates> &moves, Piece *piecePtr);
 
     Piece* piecePtrAtCoordinates(const Coordinates newCoords) const;
 

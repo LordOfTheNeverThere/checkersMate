@@ -271,5 +271,147 @@ TEST(MethodChecking, isKingCheckedTower) {
     blackPawn->setCoordinates(7,7);
     EXPECT_TRUE(theBoard.isKingChecked(blackKing->getColour()));
     whiteTower->setCoordinates(0,0);
+}
 
+TEST(MethodChecking, isKingCheckedHorse) {
+
+    Board theBoard {};
+    Piece* whiteKing {theBoard.piecePtrAtCoordinates(4,0)};
+    Piece* whitePawn {theBoard.piecePtrAtCoordinates(4,1)};
+    Piece* blackKing {theBoard.piecePtrAtCoordinates(4,7)};
+    Piece* blackPawn {theBoard.piecePtrAtCoordinates(4,6)};
+
+    Piece* blackHorse {theBoard.piecePtrAtCoordinates(6,7)};
+    Piece* whiteHorse {theBoard.piecePtrAtCoordinates(1,0)};
+
+    theBoard.emptyTheBoard({whiteKing,whitePawn,whiteHorse,blackKing,blackPawn,blackHorse});
+
+    blackHorse->setCoordinates(3,2);
+    EXPECT_TRUE(theBoard.isKingChecked(whiteKing->getColour()));
+    whitePawn->setCoordinates(5,1);
+    EXPECT_TRUE(theBoard.isKingChecked(whiteKing->getColour()));
+
+    whiteHorse->setCoordinates(5,5);
+    EXPECT_TRUE(theBoard.isKingChecked(blackKing->getColour()));
+    blackPawn->setCoordinates(5,6);
+    EXPECT_TRUE(theBoard.isKingChecked(blackKing->getColour()));
+}
+
+TEST(MethodChecking, isKingCheckedBishop) {
+
+    Board theBoard {};
+    Piece* whiteKing {theBoard.piecePtrAtCoordinates(4,0)};
+    Piece* whitePawn {theBoard.piecePtrAtCoordinates(4,1)};
+    Piece* blackKing {theBoard.piecePtrAtCoordinates(4,7)};
+    Piece* blackPawn {theBoard.piecePtrAtCoordinates(4,6)};
+
+    Piece* blackBishop {theBoard.piecePtrAtCoordinates(5,7)};
+    Piece* whiteBishop {theBoard.piecePtrAtCoordinates(2,0)};
+
+    theBoard.emptyTheBoard({whiteKing,whitePawn,whiteBishop,blackKing,blackPawn,blackBishop});
+    blackBishop->setCoordinates(6,2);
+    EXPECT_TRUE(theBoard.isKingChecked(whiteKing->getColour()));
+    whitePawn->setCoordinates(5,1);
+    EXPECT_FALSE(theBoard.isKingChecked(whiteKing->getColour()));
+    whitePawn->setCoordinates(3,1);
+    blackBishop->setCoordinates(2,2);
+    EXPECT_FALSE(theBoard.isKingChecked(whiteKing->getColour()));
+    whitePawn->setCoordinates(4,1);
+    blackBishop->setCoordinates(5,7);
+
+    whiteBishop->setCoordinates(6,5);
+    EXPECT_TRUE(theBoard.isKingChecked(blackKing->getColour()));
+    blackPawn->setCoordinates(5,6);
+    EXPECT_FALSE(theBoard.isKingChecked(blackKing->getColour()));
+    whiteBishop->setCoordinates(2,5);
+    blackPawn->setCoordinates(3,6);
+    EXPECT_FALSE(theBoard.isKingChecked(blackKing->getColour()));
+}
+
+TEST(MethodChecking, isBlackKingCheckedQueen) {
+
+    Board theBoard {};
+    Piece* blackKing {theBoard.piecePtrAtCoordinates(4,7)};
+    Piece* blackPawn {theBoard.piecePtrAtCoordinates(4,6)};
+
+    Piece* whiteQueen {theBoard.piecePtrAtCoordinates(3,0)};
+
+    theBoard.emptyTheBoard({whiteQueen,blackKing,blackPawn});
+
+    whiteQueen->setCoordinates(3,3);
+    for (auto coord : whiteQueen->getCoordinates().generateCircleSet()) {
+        blackPawn->setCoordinates(coord);
+        blackKing->setCoordinates(blackPawn->getCoordinates().getX() + (blackPawn->getCoordinates().getX() - whiteQueen->getCoordinates().getX()), blackPawn->getCoordinates().getY() + (blackPawn->getCoordinates().getY() - whiteQueen->getCoordinates().getY()));
+        EXPECT_FALSE(theBoard.isKingChecked(blackKing->getColour()));
+    }
+
+    whiteQueen->setCoordinates(3,3);
+    for (auto coord : whiteQueen->getCoordinates().generateCircleSet()) {
+        blackKing->setCoordinates(coord);
+        EXPECT_TRUE(theBoard.isKingChecked(blackKing->getColour()));
+    }
+
+}
+
+TEST(MethodChecking, isWhiteKingCheckedQueen) {
+
+    Board theBoard {};
+    Piece* whiteKing {theBoard.piecePtrAtCoordinates(4,0)};
+    Piece* whitePawn {theBoard.piecePtrAtCoordinates(4,1)};
+
+    Piece* blackQueen {theBoard.piecePtrAtCoordinates(3,7)};
+
+    theBoard.emptyTheBoard({blackQueen,whiteKing,whitePawn});
+
+    blackQueen->setCoordinates(3,3);
+    for (auto coord : blackQueen->getCoordinates().generateCircleSet()) {
+        whitePawn->setCoordinates(coord);
+        whiteKing->setCoordinates(whitePawn->getCoordinates().getX() + (whitePawn->getCoordinates().getX() - blackQueen->getCoordinates().getX()), whitePawn->getCoordinates().getY() + (whitePawn->getCoordinates().getY() - blackQueen->getCoordinates().getY()));
+        EXPECT_FALSE(theBoard.isKingChecked(whiteKing->getColour()));
+    }
+
+    blackQueen->setCoordinates(3,3);
+    for (auto coord : blackQueen->getCoordinates().generateCircleSet()) {
+        whiteKing->setCoordinates(coord);
+        EXPECT_TRUE(theBoard.isKingChecked(whiteKing->getColour()));
+    }
+
+}
+
+TEST(MethodChecking, isKingCheckedKing) {
+
+    Board theBoard {};
+    Piece* whiteKing {theBoard.piecePtrAtCoordinates(4,0)};
+
+    Piece* blackKing {theBoard.piecePtrAtCoordinates(4,7)};
+
+    theBoard.emptyTheBoard({blackKing,whiteKing});
+
+    blackKing->setCoordinates(3,3);
+    for (auto coord : blackKing->getCoordinates().generateCircleSet()) {
+        whiteKing->setCoordinates(coord);
+        EXPECT_TRUE(theBoard.isKingChecked(whiteKing->getColour()));
+    }
+
+}
+
+
+
+TEST(MethodChecking, checkChecker) {
+    Board theBoard {};
+    Piece* whiteKing {theBoard.piecePtrAtCoordinates(4,0)};
+    Piece* blackBishop {theBoard.piecePtrAtCoordinates(5,7)};
+    Piece* whitePawn {theBoard.piecePtrAtCoordinates(5,1)};
+    theBoard.emptyTheBoard({whitePawn,whiteKing,blackBishop});
+
+    blackBishop->setCoordinates(7,3);
+    auto moves {whitePawn->possibleMoves()};
+    EXPECT_EQ(moves.size(), 2);
+    EXPECT_TRUE(moves.find(Coordinates(5,2)) != moves.end());
+    EXPECT_TRUE(moves.find(Coordinates(5,3)) != moves.end());
+
+    theBoard.checkChecker(moves, whitePawn);
+    EXPECT_EQ(moves.size(), 0);
+    EXPECT_TRUE(moves.find(Coordinates(5,2)) == moves.end());
+    EXPECT_TRUE(moves.find(Coordinates(5,3)) == moves.end());
 }
