@@ -200,8 +200,13 @@ bool Board::isKingChecked(const PieceColour& colour) const {
     return false;
 }
 
-// A function that trims possible moves that might place you in check
-void Board::checkChecker(std::set<Coordinates> &moves, Piece *piecePtr) {
+// A function that gets possible moves removing those that might place you in check
+std::set<Coordinates> Board::checkSafePossibleMoves(Piece *piecePtr, Piece *lastPiecePlayedPtr) {
+    if (!piecePtr || !lastPiecePlayedPtr) {
+        return {};
+    }
+
+    auto moves {piecePtr->possibleMoves(lastPiecePlayedPtr)};
     Coordinates currCoordsPiece {piecePtr->getCoordinates()};
 
     auto movIte = moves.begin();
@@ -215,4 +220,6 @@ void Board::checkChecker(std::set<Coordinates> &moves, Piece *piecePtr) {
     }
 
     piecePtr->setCoordinates(currCoordsPiece);
+
+    return moves;
 }

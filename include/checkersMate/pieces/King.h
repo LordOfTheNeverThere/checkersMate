@@ -5,6 +5,11 @@
 class King : public Piece{
 public:
     King(const Int x, const Int y,Board* currentBoard, PieceColour colour);
+
+    bool validKingsideCastling();
+
+    bool validQueensideCastling();
+
     std::set<Coordinates> possibleMoves(const Piece* lastPlayedPiece = nullptr) override;
     void print(std::ostream& os) const {
         unsigned char charName {'K'};

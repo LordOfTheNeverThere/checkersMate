@@ -78,6 +78,10 @@ inline bool operator==(const Coordinates& lhs, const Coordinates& rhs) {
     return (lhs.getX()==rhs.getX() && lhs.getY()==rhs.getY());
 }
 
+inline bool operator!=(const Coordinates& lhs, const Coordinates& rhs) {
+    return !operator==(lhs,rhs);
+}
+
 inline bool operator<(const Coordinates& lhs, const Coordinates& rhs) {
     return lhs.getIndexIn1D() < rhs.getIndexIn1D();
 }

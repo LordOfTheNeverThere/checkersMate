@@ -410,7 +410,7 @@ TEST(MethodChecking, checkChecker) {
     EXPECT_TRUE(moves.find(Coordinates(5,2)) != moves.end());
     EXPECT_TRUE(moves.find(Coordinates(5,3)) != moves.end());
 
-    theBoard.checkChecker(moves, whitePawn);
+    moves = theBoard.checkSafePossibleMoves(whitePawn, blackBishop);
     EXPECT_EQ(moves.size(), 0);
     EXPECT_TRUE(moves.find(Coordinates(5,2)) == moves.end());
     EXPECT_TRUE(moves.find(Coordinates(5,3)) == moves.end());
