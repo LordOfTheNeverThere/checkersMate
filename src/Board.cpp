@@ -202,7 +202,7 @@ bool Board::isKingChecked(const PieceColour& colour) const {
 
 // A function that gets possible moves removing those that might place you in check
 std::set<Coordinates> Board::checkSafePossibleMoves(Piece *piecePtr, Piece *lastPiecePlayedPtr) {
-    if (!piecePtr || !lastPiecePlayedPtr) {
+    if (!piecePtr) {
         return {};
     }
 
@@ -222,4 +222,30 @@ std::set<Coordinates> Board::checkSafePossibleMoves(Piece *piecePtr, Piece *last
     piecePtr->setCoordinates(currCoordsPiece);
 
     return moves;
+}
+
+void Board::processPieceMove(Piece *piecePtr, Coordinates move) const {
+
+    if (!piecePtr) {
+        return;
+    }
+    if (piecePtr->getType() != PieceType::king) {
+        piecePtr->setCoordinates(move);
+    } else {
+        King* kingPtr {dynamic_cast<King *> (piecePtr)};
+        if (kingPtr->validQueensideCastling() && (kingPtr->getCoordinates().getX() - move.getX()) == 2 && kingPtr->getCoordinates().getY() == move.getY()) { //Queenside castling
+            Piece* queenTower {piecePtrAtCoordinates(kingPtr->getCoordinates().getX() - 4, kingPtr->getCoordinates().getY())};
+            queenTower->setCoordinates(queenTower->getCoordinates().getX() + 3, queenTower->getCoordinates().getY());
+            kingPtr->setCoordinates(move);
+        } else if (kingPtr->validKingsideCastling() && (move.getX() - kingPtr->getCoordinates().getX()) == 2 && kingPtr->getCoordinates().getY() == move.getY()) { // Kingside castling
+            Piece* kingTower {piecePtrAtCoordinates(kingPtr->getCoordinates().getX() + 3, kingPtr->getCoordinates().getY())};
+            kingTower->setCoordinates(kingTower->getCoordinates().getX() - 2, kingTower->getCoordinates().getY());
+            kingPtr->setCoordinates(move);
+        } else if ((move.getX() - kingPtr->getCoordinates().getX()) == 2 || (kingPtr->getCoordinates().getX() - move.getX()) == 2 ) { // illegal move
+            throw IllegalCastlingException();
+        } else { // legal normal move
+            piecePtr->setCoordinates(move);
+        }
+    }
+
 }

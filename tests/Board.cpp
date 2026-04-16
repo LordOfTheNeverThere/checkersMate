@@ -1,6 +1,7 @@
 #include "checkersMate/Board.h"
 
 #include "checkersMate/ChessTools.h"
+#include "checkersMate/pieces/King.h"
 #include "gtest/gtest.h"
 
 TEST(MethodChecking, BoardConstructorV2) {
@@ -414,4 +415,61 @@ TEST(MethodChecking, checkChecker) {
     EXPECT_EQ(moves.size(), 0);
     EXPECT_TRUE(moves.find(Coordinates(5,2)) == moves.end());
     EXPECT_TRUE(moves.find(Coordinates(5,3)) == moves.end());
+}
+
+
+TEST(MethodChecking, processPieceMoveKingCastling) {
+
+    Board theBoard {};
+    King* theKing {dynamic_cast<King*>(theBoard.piecePtrAtCoordinates(4,7))};
+    Piece* bishop {theBoard.piecePtrAtCoordinates(5,7)};
+    Piece* horse {theBoard.piecePtrAtCoordinates(6,7)};
+
+    bishop->setCoordinates(5,5);
+    horse->setCoordinates(6,5);
+    EXPECT_TRUE(theKing->validKingsideCastling());
+    EXPECT_FALSE(theKing->validQueensideCastling());
+    Coordinates newKingPosition {theKing->getCoordinates().getX() + 2, theKing->getCoordinates().getY()};
+    theBoard.processPieceMove(theKing, newKingPosition);
+    EXPECT_EQ(newKingPosition, theKing->getCoordinates());
+}
+
+TEST(MethodChecking, processPieceMoveQueenCastling) {
+
+    Board theBoard {};
+    King* theKing {dynamic_cast<King*>(theBoard.piecePtrAtCoordinates(4,0))};
+    Piece* queen {theBoard.piecePtrAtCoordinates(3,0)};
+    Piece* bishop {theBoard.piecePtrAtCoordinates(2,0)};
+    Piece* horse {theBoard.piecePtrAtCoordinates(1,0)};
+
+    queen->setCoordinates(3,2);
+    bishop->setCoordinates(2,2);
+    horse->setCoordinates(1,2);
+
+    EXPECT_FALSE(theKing->validKingsideCastling());
+    EXPECT_TRUE(theKing->validQueensideCastling());
+    Coordinates newKingPosition {theKing->getCoordinates().getX() - 2, theKing->getCoordinates().getY()};
+    theBoard.processPieceMove(theKing, newKingPosition);
+    EXPECT_EQ(newKingPosition, theKing->getCoordinates());
+}
+
+TEST(MethodChecking, processPieceMoveIllegalCastling){
+    Board theBoard {};
+    King* theKing {dynamic_cast<King*>(theBoard.piecePtrAtCoordinates(4,0))};
+    EXPECT_FALSE(theKing->validKingsideCastling());
+    EXPECT_FALSE(theKing->validQueensideCastling());
+    Coordinates newKingPosition {theKing->getCoordinates().getX() + 2, theKing->getCoordinates().getY()};
+    EXPECT_THROW(theBoard.processPieceMove(theKing, newKingPosition), IllegalCastlingException);
+    newKingPosition = {theKing->getCoordinates().getX() - 2, theKing->getCoordinates().getY()};
+    EXPECT_THROW(theBoard.processPieceMove(theKing, newKingPosition), IllegalCastlingException);
+}
+
+
+TEST(MethodChecking, processPieceMoveNormalMove) {
+    Board theBoard {};
+    Piece* pawn {theBoard.piecePtrAtCoordinates(4,1)};
+    auto moves {theBoard.checkSafePossibleMoves(pawn)};
+    EXPECT_EQ(moves.size(),2);
+    theBoard.processPieceMove(pawn, *moves.begin());
+    EXPECT_EQ(pawn->getCoordinates(), *moves.begin());
 }

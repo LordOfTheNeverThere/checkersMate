@@ -29,8 +29,8 @@ std::set<Coordinates> Pawn::possibleMoves(const Piece* lastPlayedPiece) {
         Coordinates diagLeft {left}; diagLeft.setY(diagLeft.getY() + signal * 1);
         Piece* pieceAtDiagLeft {getCurrentBoard()->piecePtrAtCoordinates(diagLeft)};
         if (((currentCoordinate.getY() == 4 && getColour() == PieceColour::white) || (currentCoordinate.getY() == 3 && getColour() == PieceColour::black))
-            && lastPlayedPiece->getCoordinates() == left && lastPlayedPiece->getType() == PieceType::pawn && lastPlayedPiece->getColour() != getColour()
-            && lastPlayedPiece->getNumOfMoves() == 1) {
+            && lastPlayedPiece && lastPlayedPiece->getCoordinates() == left && lastPlayedPiece->getType() == PieceType::pawn
+            && lastPlayedPiece->getColour() != getColour() && lastPlayedPiece->getNumOfMoves() == 1) {
             moves.insert(diagLeft); // En passant capture
         } else if (pieceAtDiagLeft && pieceAtDiagLeft->getColour() != getColour()) {
             moves.insert(diagLeft);// Normal Capture
@@ -41,8 +41,8 @@ std::set<Coordinates> Pawn::possibleMoves(const Piece* lastPlayedPiece) {
         Coordinates diagRight {right}; diagRight.setY(diagRight.getY() + signal * 1);
         Piece* pieceAtDiagRight {getCurrentBoard()->piecePtrAtCoordinates(diagRight)};
         if (((currentCoordinate.getY() == 4 && getColour() == PieceColour::white) || (currentCoordinate.getY() == 3 && getColour() == PieceColour::black))
-        && lastPlayedPiece->getCoordinates() == right && lastPlayedPiece->getType() == PieceType::pawn && lastPlayedPiece->getColour() != getColour()
-        && lastPlayedPiece->getNumOfMoves() == 1) {
+        && lastPlayedPiece && lastPlayedPiece->getCoordinates() == right && lastPlayedPiece->getType() == PieceType::pawn
+        && lastPlayedPiece->getColour() != getColour() && lastPlayedPiece->getNumOfMoves() == 1) {
             moves.insert(diagRight);
         } else if (pieceAtDiagRight && pieceAtDiagRight->getColour() != getColour()) { // Normal Capture
             moves.insert(diagRight);

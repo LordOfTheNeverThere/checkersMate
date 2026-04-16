@@ -25,6 +25,8 @@ public:
 
     std::set<Coordinates> checkSafePossibleMoves(Piece *piecePtr, Piece *lastPiecePlayedPtr = nullptr);
 
+    void processPieceMove(Piece *piecePtr, Coordinates move) const;
+
     Piece* piecePtrAtCoordinates(const Coordinates newCoords) const;
 
     Piece *piecePtrAtCoordinates(Int x, Int y) const;
