@@ -46,6 +46,11 @@ add_library(checkersMateLib STATIC
         include/checkersMate/pieces/PieceType.h
         include/checkersMate/ChessTools.h
         src/Coordinates.cpp
+        include/checkersMate/networking/HostEngine.h
+        src/networking/HostEngine.cpp
+        include/checkersMate/networking/GuestEngine.h
+        include/checkersMate/networking/Engine.h
+        src/networking/GuestEngine.cpp
 )
 
 # Link against the fetched socks library
