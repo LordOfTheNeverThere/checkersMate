@@ -9,6 +9,7 @@ Board.cpp
         Bishop.cpp
         Queen.cpp
         King.cpp
+        Engine.cpp
 )
 
 target_link_libraries(checkersMateTests
