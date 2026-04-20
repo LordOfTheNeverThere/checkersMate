@@ -10,6 +10,7 @@ Board.cpp
         Queen.cpp
         King.cpp
         Engine.cpp
+        ChessBoardHeader.cpp
 )
 
 target_link_libraries(checkersMateTests
