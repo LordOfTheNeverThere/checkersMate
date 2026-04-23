@@ -4,13 +4,13 @@
 #include <cstdint>
 
 
-class ChessPieceHeader {
+class ChessPieceSegment {
     char m_piece;
     uint8_t m_position1D;
 
 public:
 
-    ChessPieceHeader(char piece, uint8_t position1D) {
+    ChessPieceSegment(char piece, uint8_t position1D) {
         setPieceChar(piece);
         setPosition1D(position1D);
     }
@@ -33,11 +33,11 @@ public:
 } __attribute__((packed));
 
 
-inline bool operator==(const ChessPieceHeader& lhs, const ChessPieceHeader& rhs) {
+inline bool operator==(const ChessPieceSegment& lhs, const ChessPieceSegment& rhs) {
     return (lhs.getPieceChar()==rhs.getPieceChar() && lhs.getPosition1D()==rhs.getPosition1D());
 }
 
-inline bool operator!=(const ChessPieceHeader& lhs, const ChessPieceHeader& rhs) {
+inline bool operator!=(const ChessPieceSegment& lhs, const ChessPieceSegment& rhs) {
     return !operator==(lhs, rhs);
 }
 

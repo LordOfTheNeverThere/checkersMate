@@ -51,8 +51,8 @@ add_library(checkersMateLib STATIC
         include/checkersMate/networking/GuestEngine.h
         include/checkersMate/networking/Engine.h
         src/networking/GuestEngine.cpp
-        include/checkersMate/networking/ChessBoardHeader.h
-        include/checkersMate/networking/ChessPieceHeader.h
+        include/checkersMate/networking/ChessBoardSegment.h
+        include/checkersMate/networking/ChessPieceSegment.h
 )
 
 # Link against the fetched socks library

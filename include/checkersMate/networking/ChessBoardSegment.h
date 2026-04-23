@@ -4,8 +4,8 @@
 #include <stdexcept>
 #include <vector>
 
-#include "ChessPieceHeader.h"
-
+#include "ChessPieceSegment.h"
+#include "checkersMate/Board.h"
 
 
 class WrongChessBoardHeaderFormatException : public std::runtime_error {
@@ -14,29 +14,37 @@ public:
 };
 
 
-class ChessBoardHeader {
+class ChessBoardSegment {
     uint8_t m_numOfPieces;
-    std::vector<ChessPieceHeader> m_pieceHeaders;
+    std::vector<ChessPieceSegment> m_pieceSegments;
 
 public:
-    ChessBoardHeader(std::vector<uint8_t>& buffer){
+    ChessBoardSegment(std::vector<uint8_t>& buffer){
         unpackData(buffer);
+    }
+
+    ChessBoardSegment(const Board& board){
+        createFromCurrentBoard(board);
+    }
+
+    //TODO: Create this Data structure from the current board so that it might be packed and sent over the wire
+    void createFromCurrentBoard(const Board& buffer) {
 
     }
 
     void unpackData(std::vector<uint8_t>& buffer) {
         if (buffer.size() % 2 == 0) throw WrongChessBoardHeaderFormatException(); // Size must be odd otherwise the message received might have been corruped
 
-        m_pieceHeaders.clear();
+        m_pieceSegments.clear();
         for (int index = 0; index < buffer.size(); ++index) {
             if (index == 0) {
                 setNumOfPieces(buffer.at(index));
                 if (m_numOfPieces != (buffer.size() - 1) / 2) {
                     throw WrongChessBoardHeaderFormatException();
                 }
-                m_pieceHeaders.reserve(m_numOfPieces);
+                m_pieceSegments.reserve(m_numOfPieces);
             } else {
-                m_pieceHeaders.emplace_back(static_cast<char>(buffer.at(index)), buffer.at(index + 1));
+                m_pieceSegments.emplace_back(static_cast<char>(buffer.at(index)), buffer.at(index + 1));
                 ++index;
             }
         }
@@ -44,8 +52,8 @@ public:
 
     std::vector<uint8_t> packData () const {
         std::vector<uint8_t> result {};
-        result.push_back(m_pieceHeaders.size());
-        for (auto pieceHeader: m_pieceHeaders) {
+        result.push_back(m_pieceSegments.size());
+        for (auto pieceHeader: m_pieceSegments) {
             result.push_back(static_cast<uint8_t>(pieceHeader.getPieceChar()));
             result.push_back(pieceHeader.getPosition1D());
         }
@@ -60,22 +68,22 @@ public:
         m_numOfPieces = numOfPieces;
     }
 
-    std::vector<ChessPieceHeader> getPieceHeaders() const {
-        return m_pieceHeaders;
+    std::vector<ChessPieceSegment> getPieceSegments() const {
+        return m_pieceSegments;
     }
 
-    void setPieceHeaders(const std::vector<ChessPieceHeader> &pieceHeaders) {
-        m_pieceHeaders = pieceHeaders;
+    void setPieceSegments(const std::vector<ChessPieceSegment> &pieceSegments) {
+        m_pieceSegments = pieceSegments;
     }
 
 } __attribute__((packed));
 
-inline bool operator==(const ChessBoardHeader& lhs, const ChessBoardHeader& rhs) {
+inline bool operator==(const ChessBoardSegment& lhs, const ChessBoardSegment& rhs) {
     if (lhs.getNumOfPieces()!=rhs.getNumOfPieces()) {
         return false;
     } else {
         for (int i = 0; i < lhs.getNumOfPieces(); ++i) {
-            if (lhs.getPieceHeaders().at(i) != rhs.getPieceHeaders().at(i)) {
+            if (lhs.getPieceSegments().at(i) != rhs.getPieceSegments().at(i)) {
                 return false;
             }
         }
